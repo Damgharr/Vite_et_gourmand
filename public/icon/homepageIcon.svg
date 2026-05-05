@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="36"
+   height="37"
+   viewBox="0 0 36 37"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="homepageIcon.svg"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.418919"
+     inkscape:cx="35.073373"
+     inkscape:cy="34.372781"
+     inkscape:window-width="1920"
+     inkscape:window-height="1048"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M34 28.9417V17.739C34 16.6601 33.9991 16.1203 33.8691 15.6182C33.754 15.1733 33.565 14.7522 33.3091 14.3718C33.0205 13.9424 32.6191 13.5864 31.8148 12.8759L22.2148 4.39505C20.7216 3.07591 19.975 2.41667 19.1348 2.16579C18.3944 1.94474 17.6052 1.94474 16.8648 2.16579C16.0252 2.41648 15.2797 3.07509 13.7887 4.39224L4.18555 12.8759C3.38128 13.5864 2.98008 13.9424 2.69141 14.3718C2.43558 14.7522 2.2451 15.1733 2.12994 15.6182C2 16.1203 2 16.6601 2 17.739V28.9417C2 30.8234 2 31.7639 2.30448 32.506C2.71046 33.4956 3.48864 34.2827 4.46875 34.6926C5.20383 35 6.13572 35 7.99948 35C9.86325 35 10.7962 35 11.5312 34.6926C12.5114 34.2827 13.2893 33.4957 13.6953 32.5062C13.9998 31.764 14 30.8232 14 28.9415V26.9222C14 24.6918 15.7909 22.8838 18 22.8838C20.2091 22.8838 22 24.6918 22 26.9222V28.9415C22 30.8232 22 31.764 22.3045 32.5062C22.7105 33.4957 23.4886 34.2827 24.4688 34.6926C25.2038 35 26.1357 35 27.9995 35C29.8632 35 30.7962 35 31.5312 34.6926C32.5114 34.2827 33.2893 33.4955 33.6953 32.506C33.9998 31.7639 34 30.8234 34 28.9417Z"
+     stroke="black"
+     stroke-width="4"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1"
+     style="stroke:#ff69b4;stroke-opacity:1" />
+</svg>

@@ -1,0 +1,23 @@
+
+{% block nav %}
+<nav>
+    <ul>
+        <li><a href="{{ path('homepage') }}">
+            <img src="{{ asset('icon/homepageIcon.svg') }}" alt="Accueil">
+            <span>Accueil</span>
+        </a></li>
+        <li><a href="{{ path('menus') }}">
+            <img src="{{ asset('icon/menusIcon.svg') }}" alt="Menus">
+            <span>Menus</span>
+        </a></li>
+        <li><a href="{{ path('contact') }}">
+            <img src="{{ asset('icon/contactIcon.svg') }}" alt="Nous contacter">
+            <span>Nous contacter</span>
+        </a></li>
+        <li><a href="{{ path('user') }}">
+            <img src="{{ asset('icon/userIcon.svg') }}" alt="Utilisateur">
+            <span>Connexion</span>
+        </a></li>
+    </ul>
+</nav>
+{% endblock %}
