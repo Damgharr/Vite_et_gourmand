@@ -1,0 +1,23 @@
+:root {
+    --primary-pink: #FF69B4;
+    --primary-black: black;
+    --secondary-pink: #FFDDE3;
+}
+
+@font-face {
+    font-family: "Lato";
+    src: url("../font/Lato-Regular.ttf");
+}
+
+body {
+    margin: 0;
+    font-family: "Lato";
+}
+
+/************/
+/*Navigation*/
+/************/
+nav {
+    position: fixed;
+
+}
