@@ -1,4 +1,5 @@
 :root {
+    /* color */
     --primary-pink: #FF69B4;
     --primary-black: black;
     --secondary-pink: #FFDDE3;
@@ -9,9 +10,28 @@
     src: url("../font/Lato-Regular.ttf");
 }
 
+@font-face {
+    font-family: "Lato-Bold";
+    src: url("../font/Lato-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Lato-Black";
+    src: url("../font/Lato-Black.ttf");
+}
+
 body {
     margin: 0;
     font-family: "Lato";
+}
+
+.cta {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 16px;
+    background-color: var(--primary-black);
+    color: var(--primary-pink); 
+    text-decoration: none;
 }
 
 /************/
@@ -19,5 +39,44 @@ body {
 /************/
 nav {
     position: fixed;
+    margin: 2rem;
+    max-width: calc(100% - 4rem);
 
+    & > ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 2rem;
+        margin: unset;
+        padding: unset;
+
+        & :nth-child(1) {grid-column: 1; justify-self: left;}
+        & :nth-child(2) {grid-column: 4 / 6; justify-self: center;}
+        & :nth-child(3) {grid-column: 7; justify-self: right;}
+        & :nth-child(4) {grid-column: 8; justify-self: right;}
+
+        & a {
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+
+            box-sizing: border-box;
+            height: 100%;
+            width: fit-content;
+
+            & > img {
+                width: 32px;
+                aspect-ratio: 1/1;
+            }
+            & > span {
+                font-family: "Lato-Black";
+            }
+        }
+
+        & .menus {
+
+        }
+    }
 }
