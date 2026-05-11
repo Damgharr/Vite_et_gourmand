@@ -33,11 +33,11 @@ class Menu
 
     #[ORM\ManyToOne(inversedBy: 'menus')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?theme $themeId = null;
+    private ?theme $theme = null;
 
     #[ORM\ManyToOne(inversedBy: 'menus')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Diet $dietId = null;
+    private ?Diet $diet = null;
 
     /**
      * @var Collection<int, Dish>
@@ -116,26 +116,26 @@ class Menu
         return $this;
     }
 
-    public function getThemeId(): ?theme
+    public function getTheme(): ?theme
     {
-        return $this->themeId;
+        return $this->theme;
     }
 
-    public function setThemeId(?theme $themeId): static
+    public function setTheme(?theme $theme): static
     {
-        $this->themeId = $themeId;
+        $this->theme = $theme;
 
         return $this;
     }
 
-    public function getDietId(): ?Diet
+    public function getDiet(): ?Diet
     {
-        return $this->dietId;
+        return $this->diet;
     }
 
-    public function setDietId(?Diet $dietId): static
+    public function setDiet(?Diet $diet): static
     {
-        $this->dietId = $dietId;
+        $this->diet = $diet;
 
         return $this;
     }

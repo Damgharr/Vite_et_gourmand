@@ -21,7 +21,7 @@ class Theme
     /**
      * @var Collection<int, Menu>
      */
-    #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'themeId')]
+    #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'theme')]
     private Collection $menus;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Theme
     {
         if (!$this->menus->contains($menu)) {
             $this->menus->add($menu);
-            $menu->setThemeId($this);
+            $menu->setTheme($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Theme
     {
         if ($this->menus->removeElement($menu)) {
             // set the owning side to null (unless already changed)
-            if ($menu->getThemeId() === $this) {
-                $menu->setThemeId(null);
+            if ($menu->getTheme() === $this) {
+                $menu->setTheme(null);
             }
         }
 

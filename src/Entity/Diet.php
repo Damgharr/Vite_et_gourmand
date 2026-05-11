@@ -21,7 +21,7 @@ class Diet
     /**
      * @var Collection<int, Menu>
      */
-    #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'dietId')]
+    #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'diet')]
     private Collection $menus;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Diet
     {
         if (!$this->menus->contains($menu)) {
             $this->menus->add($menu);
-            $menu->setDietId($this);
+            $menu->setDiet($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Diet
     {
         if ($this->menus->removeElement($menu)) {
             // set the owning side to null (unless already changed)
-            if ($menu->getDietId() === $this) {
-                $menu->setDietId(null);
+            if ($menu->getDiet() === $this) {
+                $menu->setDiet(null);
             }
         }
 

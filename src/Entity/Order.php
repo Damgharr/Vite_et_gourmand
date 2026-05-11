@@ -47,11 +47,11 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $userId = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Menu $menuId = null;
+    private ?Menu $menu = null;
 
     public function getId(): ?int
     {
@@ -178,26 +178,26 @@ class Order
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): static
+    public function setUser(?User $user): static
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getMenuId(): ?Menu
+    public function getMenu(): ?Menu
     {
-        return $this->menuId;
+        return $this->menu;
     }
 
-    public function setMenuId(?Menu $menuId): static
+    public function setMenu(?Menu $menu): static
     {
-        $this->menuId = $menuId;
+        $this->menu = $menu;
 
         return $this;
     }
