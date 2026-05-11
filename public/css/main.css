@@ -39,8 +39,9 @@ body {
 /************/
 nav {
     position: fixed;
+    top: 0;
     margin: 2rem;
-    max-width: calc(100% - 4rem);
+    width: calc(100% - 4rem);
 
     & > ul {
         list-style: none;
@@ -63,7 +64,6 @@ nav {
             gap: 1rem;
 
             box-sizing: border-box;
-            height: 100%;
             width: fit-content;
 
             & > img {
@@ -75,8 +75,29 @@ nav {
             }
         }
 
-        & .menus {
+        & .menu {
+            display: flex;
+            flex-direction: column;
+            font-size: 1.5rem;
 
+            & > img {
+                width: 64px;
+            }
         }
     }
+}
+
+/*******/
+/*Phone*/
+/*******/
+@media (max-width: 480px) {
+
+/************/
+/*Navigation*/
+/************/
+nav {
+    
+}
+
+
 }
