@@ -32,18 +32,22 @@ body {
 
 .cta {
     padding: 1rem;
-    font-family: "Lato-Bold";
+    font-family: "Lato-Black";
     border-radius: 16px;
     background-color: var(--primary-black);
     color: var(--primary-pink); 
     text-decoration: none;
     box-shadow: var(--box-shadow-pink);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 /************/
 /*Navigation*/
 /************/
 nav {
+    z-index: 1;
     position: fixed;
     top: 0;
     margin: 2rem;
@@ -75,9 +79,6 @@ nav {
             & > img {
                 width: 32px;
                 aspect-ratio: 1/1;
-            }
-            & > span {
-                font-family: "Lato-Black";
             }
         }
 
@@ -140,7 +141,6 @@ footer {
 nav {
     margin: 1rem;
     width: calc(100% - 2rem);
-    position: fixed;
 
     & > button.cta {
         display: block;

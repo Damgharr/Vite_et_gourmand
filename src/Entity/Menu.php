@@ -33,7 +33,7 @@ class Menu
 
     #[ORM\ManyToOne(inversedBy: 'menus')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?theme $theme = null;
+    private ?Theme $theme = null;
 
     #[ORM\ManyToOne(inversedBy: 'menus')]
     #[ORM\JoinColumn(nullable: false)]
@@ -140,9 +140,11 @@ class Menu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Dish>
-     */
+    public function getTotalPrice(): float
+    {
+        return (float) $this->pricePerPeople * $this->minPeopleAmount;
+    }
+
     public function getDishes(): Collection
     {
         return $this->dishes;

@@ -1,20 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MenusController!{% endblock %}
+{% block title %}Menus{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/menus.css') }}">
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <main>
+        <h1>Menus</h1>
+        <form method="get" action="{{ path('menus') }}">
+            <div>
+                <label>Prix min
+                    <input type="number" name="minPrice" value="{{ filters.minPrice }}" min="0">
+                </label>
+                <label>Prix max
+                    <input type="number" name="maxPrice" value="{{ filters.maxPrice }}" min="0">
+                </label>
+                <label>Thème
+                    <select name="theme">
+                        <option value="">Tous</option>
+                        {% for theme in themes %}
+                            <option value="{{ theme.id }}" {% if filters.theme == theme.id %}selected{% endif %}>{{ theme.label }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Régime
+                    <select name="diet">
+                        <option value="">Tous</option>
+                        {% for diet in diets %}
+                            <option value="{{ diet.id }}" {% if filters.diet == diet.id %}selected{% endif %}>{{ diet.label }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>Personnes min
+                    <input type="number" name="minPeople" value="{{ filters.minPeople }}" min="0">
+                </label>
+            </div>
+            <button type="submit" class="cta">Filtrer</button>
+        </form>
+        <section id="menus">
+            {% include 'components/menu_cards.html.twig' with {menus: menus} %}
+        </section>
+        <button id="load-more" data-url="{{ path('menus_more') }}" class="cta">Charger plus</button>
+    </main>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/daegan/Documents/Studi/Vite_Et_Gourmand/src/Controller/MenusController.php</code></li>
-        <li>Your template at <code>/home/daegan/Documents/Studi/Vite_Et_Gourmand/templates/menus/index.html.twig</code></li>
-    </ul>
-</div>
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/menus.js') }}"></script>
 {% endblock %}

@@ -6,9 +6,6 @@ use App\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Menu>
- */
 class MenuRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,42 @@ class MenuRepository extends ServiceEntityRepository
         parent::__construct($registry, Menu::class);
     }
 
-    //    /**
-    //     * @return Menu[] Returns an array of Menu objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findFiltered(array $filters): array
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'ASC');
 
-    //    public function findOneBySomeField($value): ?Menu
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $minPrice = $filters['minPrice'] ?? null;
+        $maxPrice = $filters['maxPrice'] ?? null;
+        $theme = $filters['theme'] ?? null;
+        $diet = $filters['diet'] ?? null;
+        $minPeople = $filters['minPeople'] ?? null;
+
+        if ($minPrice !== '' && $minPrice !== null) {
+            $qb->andWhere('m.pricePerPeople >= :minPrice')
+               ->setParameter('minPrice', $minPrice);
+        }
+
+        if ($maxPrice !== '' && $maxPrice !== null) {
+            $qb->andWhere('m.pricePerPeople <= :maxPrice')
+               ->setParameter('maxPrice', $maxPrice);
+        }
+
+        if (!empty($theme)) {
+            $qb->andWhere('m.theme = :theme')
+               ->setParameter('theme', $theme);
+        }
+
+        if (!empty($diet)) {
+            $qb->andWhere('m.diet = :diet')
+               ->setParameter('diet', $diet);
+        }
+
+        if ($minPeople !== '' && $minPeople !== null) {
+            $qb->andWhere('m.minPeopleAmount <= :minPeople')
+               ->setParameter('minPeople', $minPeople);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

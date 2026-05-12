@@ -1,0 +1,94 @@
+main {
+    padding: 12rem clamp(2rem, 20vw, 20rem) 4rem;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > div {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    
+        & > label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+    
+        & input, & select {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary-pink);
+        }
+    
+        
+    }
+
+    & > button {
+        margin: 0 auto;
+    }
+
+}
+
+#menus {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    & article {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: var(--box-shadow-pink);
+
+        & h2 {
+            margin-top: 0;
+        }
+
+        & div {
+            display: flex;
+            gap: 0.5rem;
+
+            & span {
+                background-color: var(--secondary-pink);
+                padding: 0.25rem 0.5rem;
+                border-radius: 8px;
+                font-size: 0.875rem;
+            }
+        }
+
+        & p:last-child {
+            font-weight: bold;
+        }
+    }
+}
+
+#load-more {
+    display: block;
+    margin: 2rem auto;
+    font-size: 1.5rem;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+@media (max-width: 480px) {
+    #menus {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+}
