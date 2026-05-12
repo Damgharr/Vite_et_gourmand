@@ -1,4 +1,11 @@
 {% extends "base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/reviews-carousel.js') }}"></script>
+{% endblock %}
 {% block body %}
     <header>
         <div>
@@ -8,7 +15,7 @@
         </div>
     </header>
     <main>
-        <section>
+        <section id="presentation">
             <img src="{{ asset('icon/gridPlusIcon.svg') }}" alt="Choisissez votre menu !">
             <p>Choisissez le menu qui vous convient ! Nous avont un grande selection pour tout types d’événement ou thèmes : Noël, Pâque, Saint-Valentin, et bien plus encore. <br> Nous vous proposons aussi des menus adapté à différents régimes !</p>
             <p>Nos plats sont préparés et cuisinés avec des produits de qualité. <br> Nous nous efforçons à réaliser une expérience gustative plaisante qui saura réunir tout le monde autour de la table pour passer un moment agréable.</p>
@@ -16,12 +23,29 @@
             <img src="{{ asset('icon/deliveryIcon.svg') }}" alt="Nous nous chargeons de la livraison !">
             <p>Nous nous occupons de la livraison ! Ainsi que de vous amener tout le matériel nécessaire afin de profiter de vos fondus ou grillades. <br> Notre équipe vous assure la livraison en temps et en heure, vous accompagne et vous instruit sur l’utilisation des différents ustensiles prêtés !</p>
         </section>
-        <section>
+        <section id="reviews">
+            <button class="navigate-left">
+                <img src="{{ asset('icon/arrowIcon.svg') }}" alt="">
+            </button>
             <div>
-                <div class="navigate-left"><img src="{{ asset('icon/arrowIcon.svg') }}"></div>
-                <div></div>
-                <div class="navigate-right"><img src="{{ asset('icon/arrowIcon.svg') }}"></div>
+                <div>
+                    {% for review in reviews %}
+                        <div>
+                            <h3> {{ review.user.firstName }} {{ review.user.lastName }}</h3>
+                            <div>
+                                {% for i in 1..5 %}
+                                    <span class="{% if i <= review.note %}filled{% endif %}">★</span>
+                                {% endfor %}
+                            </div>
+                            <p class="review-text">"{{ review.text }}"</p>
+                            
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
+            <button class="navigate-right">
+                <img src="{{ asset('icon/arrowIcon.svg') }}" alt="">
+            </button>
         </section>
         <a href="{{ path('menus') }}" class="cta">Découvrir les menus</a>
     </main>

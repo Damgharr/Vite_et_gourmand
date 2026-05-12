@@ -3,6 +3,10 @@
     --primary-pink: #FF69B4;
     --primary-black: black;
     --secondary-pink: #FFDDE3;
+
+    --box-shadow-pink: 0 4px 16px var(--primary-pink);
+
+    --side-padding: calc(20vw);
 }
 
 @font-face {
@@ -23,15 +27,17 @@
 body {
     margin: 0;
     font-family: "Lato";
+    background-color: var(--secondary-pink) !important;
 }
 
 .cta {
     padding: 1rem;
-    font-size: 1rem;
+    font-family: "Lato-Bold";
     border-radius: 16px;
     background-color: var(--primary-black);
     color: var(--primary-pink); 
     text-decoration: none;
+    box-shadow: var(--box-shadow-pink);
 }
 
 /************/
@@ -85,7 +91,43 @@ nav {
             }
         }
     }
+
+    & > button {
+        display: none;
+    }
 }
+
+/********/
+/*Footer*/
+/********/ 
+footer {
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: var(--primary-pink);
+    background-color: var(--primary-black);
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        & > p {
+            margin: 0;
+        }
+
+        & > a {
+            color: inherit;
+        }
+    }
+}
+
 
 /*******/
 /*Phone*/
@@ -96,7 +138,65 @@ nav {
 /*Navigation*/
 /************/
 nav {
-    
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    position: fixed;
+
+    & > button.cta {
+        display: block;
+        border: none;
+        padding: .5rem;
+        position: fixed;
+
+        & > img {
+            width: 48px;
+            aspect-ratio: 1/1;
+        }
+    }
+
+    & > ul {
+        position: fixed;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        padding: 1rem;
+        box-sizing: border-box;
+        align-items: baseline;
+        z-index: 100;
+
+        background-color: var(--primary-black);
+        border-radius: 0 0 16px 16px;
+        box-shadow: var(--box-shadow-pink);
+
+        & > li > a {
+            box-shadow: unset !important;
+            background-color: unset !important;
+            
+            
+            &.menu {
+                flex-direction: row;
+                font-size: 1rem; 
+                & > img {width: 32px;}
+            }
+        }
+
+        &.open {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &:has(ul.open) {
+        margin: 0;
+        height: 100%;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        & > button {
+            display: none;
+        }
+    }
 }
 
 
