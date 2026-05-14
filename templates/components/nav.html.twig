@@ -1,4 +1,3 @@
-
 {% block nav %}
 <nav>
     <button class="cta">
@@ -17,10 +16,30 @@
             <img src="{{ asset('icon/contactIcon.svg') }}" alt="Nous contacter">
             <span>Nous contacter</span>
         </a></li>
-        <li><a href="{{ path('user') }}" class="cta">
-            <img src="{{ asset('icon/userIcon.svg') }}" alt="Utilisateur">
-            <span>Connexion</span>
-        </a></li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('admin_dashboard') }}" class="cta">
+                <span>Backoffice</span>
+            </a></li>
+            <li><a href="{{ path('app_logout') }}" class="cta">
+                <span>Déconnexion</span>
+            </a></li>
+        {% elseif is_granted('ROLE_EMPLOYEE') %}
+            <li><a href="{{ path('employee_dashboard') }}" class="cta">
+                <span>Espace employé</span>
+            </a></li>
+            <li><a href="{{ path('app_logout') }}" class="cta">
+                <span>Déconnexion</span>
+            </a></li>
+        {% elseif app.user %}
+            <li><a href="{{ path('app_logout') }}" class="cta">
+                <span>Déconnexion</span>
+            </a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}" class="cta">
+                <img src="{{ asset('icon/userIcon.svg') }}" alt="Utilisateur">
+                <span>Connexion</span>
+            </a></li>
+        {% endif %}
     </ul>
 </nav>
 <script src="{{ asset('js/nav.js') }}" type="module"></script>

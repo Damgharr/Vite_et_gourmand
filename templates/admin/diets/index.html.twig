@@ -1,0 +1,18 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Régimes{% endblock %}
+{% block admin_body %}
+    <h1>Régimes</h1>
+    <a href="{{ path('admin_diets_new') }}" class="cta">Nouveau régime</a>
+    <ul>
+        {% for diet in diets %}
+            <li>
+                {{ diet.label }}
+                <a href="{{ path('admin_diets_edit', {id: diet.id}) }}">Modifier</a>
+                <form method="post" action="{{ path('admin_diets_delete', {id: diet.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ diet.id) }}">
+                    <button>Supprimer</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

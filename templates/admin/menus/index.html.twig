@@ -1,0 +1,18 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Menus{% endblock %}
+{% block admin_body %}
+    <h1>Menus</h1>
+    <a href="{{ path('admin_menus_new') }}" class="cta">Nouveau menu</a>
+    <ul>
+        {% for menu in menus %}
+            <li>
+                {{ menu.title }} — {{ menu.pricePerPeople }}€/pers (min {{ menu.minPeopleAmount }})
+                <a href="{{ path('admin_menus_edit', {id: menu.id}) }}">Modifier</a>
+                <form method="post" action="{{ path('admin_menus_delete', {id: menu.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
+                    <button>Supprimer</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

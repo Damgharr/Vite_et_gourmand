@@ -1,0 +1,44 @@
+{% extends 'employee/base.html.twig' %}
+{% block title %}Nouveau menu{% endblock %}
+{% block employee_body %}
+    <h1>Nouveau menu</h1>
+    <form method="post">
+        <label>Titre
+            <input type="text" name="title" required>
+        </label>
+        <label>Description
+            <textarea name="description"></textarea>
+        </label>
+        <label>Personnes min
+            <input type="number" name="minPeopleAmount" required>
+        </label>
+        <label>Prix par personne
+            <input type="number" step="0.01" name="pricePerPeople" required>
+        </label>
+        <label>Stock
+            <input type="number" name="remaining" required>
+        </label>
+        <label>Thème
+            <select name="theme" required>
+                {% for theme in themes %}
+                    <option value="{{ theme.id }}">{{ theme.label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Régime
+            <select name="diet" required>
+                {% for diet in diets %}
+                    <option value="{{ diet.id }}">{{ diet.label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Plats
+            <select name="dishes[]" multiple>
+                {% for dish in dishes %}
+                    <option value="{{ dish.id }}">{{ dish.title }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <button type="submit" class="cta">Créer</button>
+    </form>
+{% endblock %}

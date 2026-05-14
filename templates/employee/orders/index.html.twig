@@ -1,0 +1,63 @@
+{% extends 'employee/base.html.twig' %}
+{% block title %}Commandes{% endblock %}
+{% block employee_body %}
+    <h1>Commandes</h1>
+    <form method="get">
+        <select name="status">
+            <option value="">Tous</option>
+            {% for s in statuses %}
+                <option value="{{ s }}" {% if app.request.query.get('status') == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="client" placeholder="Nom ou email client" value="{{ app.request.query.get('client') }}">
+        <button type="submit" class="cta">Filtrer</button>
+    </form>
+    <ul>
+        {% for order in orders %}
+            <li>
+                <p>Commande {{ order.orderNumber }} — {{ order.menu.title }}</p>
+                <p>Passée le {{ order.orderDate|date('d/m/Y H:i') }}</p>
+                <p>{{ order.user.firstName }} {{ order.user.lastName }} — {{ order.user.email }} — {{ order.user.phone }}</p>
+                <form method="post" action="{{ path('employee_orders_status', {id: order.id}) }}">
+                    <select name="status">
+                        {% for s in statuses %}
+                            <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="cta">Modifier</button>
+                </form>
+                <button data-cancel="{{ order.id }}" class="cta cancel-btn">Annuler</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <dialog id="cancel-dialog">
+        <form method="post" action="">
+            <h2>Annuler la commande</h2>
+            <label>Contact
+                <select name="contactMethod" required>
+                    <option value="mail">Mail</option>
+                    <option value="phone">Téléphone</option>
+                </select>
+            </label>
+            <label>Motif
+                <textarea name="reason" required></textarea>
+            </label>
+            <button type="submit" class="cta">Confirmer</button>
+            <button type="button" class="cta close-dialog">Fermer</button>
+        </form>
+    </dialog>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        const dialog = document.getElementById('cancel-dialog');
+        const form = dialog.querySelector('form');
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                form.action = `/employee/orders/${btn.dataset.cancel}/cancel`;
+                dialog.showModal();
+            });
+        });
+        dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+    </script>
+{% endblock %}
