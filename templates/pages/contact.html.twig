@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello ContactController!{% endblock %}
-
+{% block title %}Nous contacter{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/daegan/Documents/Studi/Vite_Et_Gourmand/src/Controller/ContactController.php</code></li>
-        <li>Your template at <code>/home/daegan/Documents/Studi/Vite_Et_Gourmand/templates/contact/index.html.twig</code></li>
-    </ul>
-</div>
+<main>
+    <h1>Nous contacter</h1>
+    {% for message in app.flashes('success') %}
+        <p class="flash success">{{ message }}</p>
+    {% endfor %}
+    {% if errors is defined %}
+        <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post" action="{{ path('contact') }}">
+        <label>Email
+            <input type="email" name="email" value="{{ email|default('') }}" required>
+        </label>
+        <label>Sujet
+            <input type="text" name="subject" value="{{ subject|default('') }}" required>
+        </label>
+        <label>Message
+            <textarea name="content" rows="8" required>{{ content|default('') }}</textarea>
+        </label>
+        <button type="submit" class="cta">Envoyer</button>
+    </form>
+</main>
 {% endblock %}

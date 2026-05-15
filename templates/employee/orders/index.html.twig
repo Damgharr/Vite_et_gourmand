@@ -46,11 +46,9 @@
             <button type="button" class="cta close-dialog">Fermer</button>
         </form>
     </dialog>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
     <script type="module">
         const dialog = document.getElementById('cancel-dialog');
+        if (!dialog) return;
         const form = dialog.querySelector('form');
         document.querySelectorAll('.cancel-btn').forEach(btn => {
             btn.addEventListener('click', () => {

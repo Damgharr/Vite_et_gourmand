@@ -36,11 +36,24 @@
             </a></li>
         {% else %}
             <li><a href="{{ path('app_login') }}" class="cta">
-                <img src="{{ asset('icon/userIcon.svg') }}" alt="Utilisateur">
                 <span>Connexion</span>
+            </a></li>
+            <li><a href="{{ path('app_register') }}" class="cta">
+                <span>Inscription</span>
             </a></li>
         {% endif %}
     </ul>
 </nav>
-<script src="{{ asset('js/nav.js') }}" type="module"></script>
+<script type="module">
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+    const button = nav.querySelector("button");
+    const ul = nav.querySelector("ul");
+    button.addEventListener("click", () => ul.classList.toggle("open"));
+    nav.addEventListener("click", (e) => {
+        if (e.target === nav && ul.classList.contains("open")) {
+            ul.classList.remove("open");
+        }
+    });
+</script>
 {% endblock %}

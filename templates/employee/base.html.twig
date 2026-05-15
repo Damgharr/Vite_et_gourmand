@@ -2,6 +2,7 @@
 {% block nav %}{% endblock %}
 {% block footer %}{% endblock %}
 {% block body %}
+<div class="admin">
 <aside>
     <a href="{{ path('employee_dashboard') }}">Accueil</a>
     <a href="{{ path('employee_orders') }}">Commandes</a>
@@ -18,6 +19,7 @@
     {% endfor %}
     {% block employee_body %}{% endblock %}
 </main>
+</div>
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}

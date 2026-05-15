@@ -2,23 +2,23 @@
 {% block title %}Tableau de bord{% endblock %}
 {% block admin_body %}
     <h1>Tableau de bord</h1>
-    <section>
-        <form id="chart-filters">
+    <section data-controller="charts">
+        <form data-charts-target="form">
             <label>Du
-                <input type="date" name="from" id="from">
+                <input type="date" name="from">
             </label>
             <label>Au
-                <input type="date" name="to" id="to">
+                <input type="date" name="to">
             </label>
             <label>Période
-                <select name="period" id="period">
+                <select name="period">
                     <option value="day">Jour</option>
                     <option value="week">Semaine</option>
                     <option value="month">Mois</option>
                 </select>
             </label>
             <label>Menu
-                <select name="menu" id="menu">
+                <select name="menu">
                     <option value="">Tous</option>
                     {% for m in menus %}
                         <option value="{{ m.id }}">{{ m.title }}</option>
@@ -27,48 +27,7 @@
             </label>
             <button type="submit" class="cta">Filtrer</button>
         </form>
-        <canvas id="revenue-chart"></canvas>
-        <canvas id="orders-chart"></canvas>
+        <canvas data-charts-target="revenue"></canvas>
+        <canvas data-charts-target="orders"></canvas>
     </section>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="module">
-        import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from 'chart.js';
-        Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
-
-        const ctxRev = document.getElementById('revenue-chart').getContext('2d');
-        const ctxOrd = document.getElementById('orders-chart').getContext('2d');
-
-        const revenueChart = new Chart(ctxRev, {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'Revenus (€)', data: [], borderColor: '#FF69B4', backgroundColor: 'rgba(255,105,180,0.2)', fill: true, tension: 0.3 }] },
-            options: { responsive: true, plugins: { title: { display: true, text: 'Revenus' } } }
-        });
-
-        const ordersChart = new Chart(ctxOrd, {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'Commandes', data: [], borderColor: '#000', backgroundColor: 'rgba(0,0,0,0.2)', fill: true, tension: 0.3 }] },
-            options: { responsive: true, plugins: { title: { display: true, text: 'Commandes' } } }
-        });
-
-        async function loadData() {
-            const params = new URLSearchParams(new FormData(document.getElementById('chart-filters')));
-            const res = await fetch('/admin/dashboard/data?' + params.toString());
-            const data = await res.json();
-            revenueChart.data.labels = data.labels;
-            revenueChart.data.datasets[0].data = data.revenue;
-            revenueChart.update();
-            ordersChart.data.labels = data.labels;
-            ordersChart.data.datasets[0].data = data.orders;
-            ordersChart.update();
-        }
-
-        document.getElementById('chart-filters').addEventListener('submit', e => {
-            e.preventDefault();
-            loadData();
-        });
-
-        loadData();
-    </script>
 {% endblock %}
