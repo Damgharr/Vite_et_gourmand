@@ -3,10 +3,11 @@
 {% block backoffice_body %}
     <h1>Plats</h1>
     <a href="{{ path('employee_dishes_new') }}" class="cta">Nouveau plat</a>
-    <ul>
+    <ul id="dish-list">
         {% for dish in dishes %}
             <li>
-                {{ dish.title }}
+                <img src="{{ path('dish_photo', {id: dish.id}) }}" alt="{{ dish.title }}">
+                <h3>{{ dish.title }}</h3>
                 <a href="{{ path('employee_dishes_edit', {id: dish.id}) }}">Modifier</a>
                 <form method="post" action="{{ path('employee_dishes_delete', {id: dish.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dish.id) }}">

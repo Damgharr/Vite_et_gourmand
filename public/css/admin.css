@@ -184,6 +184,35 @@ dialog {
     }
 }
 
+#dish-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+
+    & > li {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 16px;
+        box-shadow: var(--box-shadow-pink);
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        align-items: center;
+        text-align: center;
+
+        & > img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        & > h3 {
+            margin: 0;
+        }
+    }
+}
+
 @media (max-width: 480px) {
     .admin {
         & > aside {
