@@ -16,7 +16,7 @@ class AdminDashboardController extends AbstractController
     #[Route('/', name: 'admin_dashboard')]
     public function index(MenuRepository $menuRepository): Response
     {
-        return $this->render('admin/dashboard.html.twig', [
+        return $this->render('backoffice/dashboard.html.twig', [
             'menus' => $menuRepository->findAll(),
         ]);
     }

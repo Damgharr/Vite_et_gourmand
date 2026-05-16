@@ -1,0 +1,18 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Allergènes{% endblock %}
+{% block backoffice_body %}
+    <h1>Allergènes</h1>
+    <a href="{{ path('admin_allergens_new') }}" class="cta">Nouvel allergène</a>
+    <ul>
+        {% for allergen in allergens %}
+            <li>
+                {{ allergen.label }}
+                <a href="{{ path('admin_allergens_edit', {id: allergen.id}) }}">Modifier</a>
+                <form method="post" action="{{ path('admin_allergens_delete', {id: allergen.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ allergen.id) }}">
+                    <button>Supprimer</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

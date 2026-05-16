@@ -1,0 +1,80 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Nouveau menu{% endblock %}
+{% block backoffice_body %}
+    <h1>Nouveau menu</h1>
+    <form method="post">
+        <label>Titre
+            <input type="text" name="title" required>
+        </label>
+        <label>Description
+            <textarea name="description"></textarea>
+        </label>
+        <label>Personnes min
+            <input type="number" name="minPeopleAmount" required>
+        </label>
+        <label>Prix par personne
+            <input type="number" step="0.01" name="pricePerPeople" required>
+        </label>
+        <label>Stock
+            <input type="number" name="remaining" required>
+        </label>
+        <label>Thème
+            <select name="theme" required>
+                {% for theme in themes %}
+                    <option value="{{ theme.id }}">{{ theme.label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Régime
+            <select name="diet" required>
+                {% for diet in diets %}
+                    <option value="{{ diet.id }}">{{ diet.label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Plat
+            <select id="dish-select">
+                <option value="">Choisir un plat</option>
+                {% for dish in dishes %}
+                    <option value="{{ dish.id }}">{{ dish.title }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <button type="button" id="add-dish" class="cta">Ajouter au menu</button>
+        <div id="selected-dishes"></div>
+        <template id="dish-template">
+            <div data-dish-id="">
+                <img src="" alt="">
+                <h3></h3>
+                <p></p>
+                <button type="button" class="remove-dish">Retirer</button>
+                <input type="hidden" name="dishes[]" value="">
+            </div>
+        </template>
+        <div id="dish-data" data-dishes="{{ dishes|map(d => {id: d.id, title: d.title, description: d.description|default(''), photoUrl: path('dish_photo', {id: d.id})})|json_encode|e('html_attr') }}"></div>
+        <button type="submit" class="cta">Créer</button>
+    </form>
+    <script type="module">
+        const select = document.getElementById('dish-select');
+        const addBtn = document.getElementById('add-dish');
+        const container = document.getElementById('selected-dishes');
+        const template = document.getElementById('dish-template');
+        const dishData = JSON.parse(document.getElementById('dish-data').dataset.dishes);
+        addBtn.addEventListener('click', () => {
+            const id = select.value;
+            if (!id) return;
+            if (container.querySelector(`[data-dish-id="${id}"]`)) return;
+            const dish = dishData.find(d => d.id == id);
+            if (!dish) return;
+            const clone = template.content.cloneNode(true);
+            const div = clone.querySelector('div');
+            div.dataset.dishId = dish.id;
+            clone.querySelector('img').src = dish.photoUrl;
+            clone.querySelector('h3').textContent = dish.title;
+            clone.querySelector('p').textContent = dish.description;
+            clone.querySelector('input').value = dish.id;
+            clone.querySelector('.remove-dish').addEventListener('click', () => div.remove());
+            container.appendChild(clone);
+        });
+    </script>
+{% endblock %}

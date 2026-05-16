@@ -1,0 +1,26 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Nouveau plat{% endblock %}
+{% block backoffice_body %}
+    <h1>Nouveau plat</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label>Titre
+            <input type="text" name="title" required>
+        </label>
+        <label>Description
+            <textarea name="description"></textarea>
+        </label>
+        <label>Photo
+            <input type="file" name="photo" accept="image/*">
+        </label>
+        <fieldset>
+            <legend>Allergènes</legend>
+            {% for allergen in allergens %}
+                <label>
+                    <input type="checkbox" name="allergens[]" value="{{ allergen.id }}">
+                    {{ allergen.label }}
+                </label>
+            {% endfor %}
+        </fieldset>
+        <button type="submit" class="cta">Créer</button>
+    </form>
+{% endblock %}

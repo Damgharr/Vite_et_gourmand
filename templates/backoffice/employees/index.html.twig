@@ -1,0 +1,21 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Employés{% endblock %}
+{% block backoffice_body %}
+    <h1>Employés</h1>
+    <a href="{{ path('admin_employees_new') }}" class="cta">Créer un employé</a>
+    <ul>
+        {% for employee in employees %}
+            <li>
+                {{ employee.firstName }} {{ employee.lastName }} — {{ employee.email }}
+                {% if employee.enabled %}
+                    <span>Actif</span>
+                {% else %}
+                    <span>Désactivé</span>
+                {% endif %}
+                <form method="post" action="{{ path('admin_employees_toggle', {id: employee.id}) }}">
+                    <button class="cta">{% if employee.enabled %}Désactiver{% else %}Activer{% endif %}</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Nouveau régime{% endblock %}
+{% block backoffice_body %}
+    <h1>Nouveau régime</h1>
+    <form method="post">
+        <label>Label
+            <input type="text" name="label" required>
+        </label>
+        <button type="submit" class="cta">Créer</button>
+    </form>
+{% endblock %}

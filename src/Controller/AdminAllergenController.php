@@ -18,7 +18,7 @@ class AdminAllergenController extends AbstractController
     #[Route('/allergens', name: 'admin_allergens')]
     public function index(AllergenRepository $allergenRepository): Response
     {
-        return $this->render('admin/allergens/index.html.twig', [
+        return $this->render('backoffice/allergens/index.html.twig', [
             'allergens' => $allergenRepository->findAll(),
         ]);
     }
@@ -34,7 +34,7 @@ class AdminAllergenController extends AbstractController
             $this->addFlash('success', 'Allergène créé.');
             return $this->redirectToRoute('admin_allergens');
         }
-        return $this->render('admin/allergens/new.html.twig');
+        return $this->render('backoffice/allergens/new.html.twig');
     }
 
     #[Route('/allergens/{id}/edit', name: 'admin_allergens_edit', methods: ['GET', 'POST'])]
@@ -46,7 +46,7 @@ class AdminAllergenController extends AbstractController
             $this->addFlash('success', 'Allergène modifié.');
             return $this->redirectToRoute('admin_allergens');
         }
-        return $this->render('admin/allergens/edit.html.twig', ['allergen' => $allergen]);
+        return $this->render('backoffice/allergens/edit.html.twig', ['allergen' => $allergen]);
     }
 
     #[Route('/allergens/{id}/delete', name: 'admin_allergens_delete', methods: ['POST'])]

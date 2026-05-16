@@ -1,0 +1,23 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Nouvel employé{% endblock %}
+{% block backoffice_body %}
+    <h1>Nouvel employé</h1>
+    <form method="post">
+        <label>Email
+            <input type="email" name="email" required>
+        </label>
+        <label>Mot de passe
+            <input type="password" name="password" required>
+        </label>
+        <label>Prénom
+            <input type="text" name="firstName" required>
+        </label>
+        <label>Nom
+            <input type="text" name="lastName" required>
+        </label>
+        <label>Téléphone
+            <input type="text" name="phone" required>
+        </label>
+        <button type="submit" class="cta">Créer</button>
+    </form>
+{% endblock %}

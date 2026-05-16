@@ -18,7 +18,7 @@ class AdminThemeController extends AbstractController
     #[Route('/themes', name: 'admin_themes')]
     public function index(ThemeRepository $themeRepository): Response
     {
-        return $this->render('admin/themes/index.html.twig', [
+        return $this->render('backoffice/themes/index.html.twig', [
             'themes' => $themeRepository->findAll(),
         ]);
     }
@@ -34,7 +34,7 @@ class AdminThemeController extends AbstractController
             $this->addFlash('success', 'Thème créé.');
             return $this->redirectToRoute('admin_themes');
         }
-        return $this->render('admin/themes/new.html.twig');
+        return $this->render('backoffice/themes/new.html.twig');
     }
 
     #[Route('/themes/{id}/edit', name: 'admin_themes_edit', methods: ['GET', 'POST'])]
@@ -46,7 +46,7 @@ class AdminThemeController extends AbstractController
             $this->addFlash('success', 'Thème modifié.');
             return $this->redirectToRoute('admin_themes');
         }
-        return $this->render('admin/themes/edit.html.twig', ['theme' => $theme]);
+        return $this->render('backoffice/themes/edit.html.twig', ['theme' => $theme]);
     }
 
     #[Route('/themes/{id}/delete', name: 'admin_themes_delete', methods: ['POST'])]

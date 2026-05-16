@@ -19,7 +19,7 @@ class AdminEmployeeController extends AbstractController
     #[Route('/employees', name: 'admin_employees')]
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('admin/employees/index.html.twig', [
+        return $this->render('backoffice/employees/index.html.twig', [
             'employees' => $userRepository->findByRole('ROLE_EMPLOYEE'),
         ]);
     }
@@ -40,7 +40,7 @@ class AdminEmployeeController extends AbstractController
             $this->addFlash('success', 'Employé créé.');
             return $this->redirectToRoute('admin_employees');
         }
-        return $this->render('admin/employees/new.html.twig');
+        return $this->render('backoffice/employees/new.html.twig');
     }
 
     #[Route('/employees/{id}/toggle', name: 'admin_employees_toggle', methods: ['POST'])]

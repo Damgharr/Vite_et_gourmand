@@ -18,7 +18,7 @@ class AdminDietController extends AbstractController
     #[Route('/diets', name: 'admin_diets')]
     public function index(DietRepository $dietRepository): Response
     {
-        return $this->render('admin/diets/index.html.twig', [
+        return $this->render('backoffice/diets/index.html.twig', [
             'diets' => $dietRepository->findAll(),
         ]);
     }
@@ -34,7 +34,7 @@ class AdminDietController extends AbstractController
             $this->addFlash('success', 'Régime créé.');
             return $this->redirectToRoute('admin_diets');
         }
-        return $this->render('admin/diets/new.html.twig');
+        return $this->render('backoffice/diets/new.html.twig');
     }
 
     #[Route('/diets/{id}/edit', name: 'admin_diets_edit', methods: ['GET', 'POST'])]
@@ -46,7 +46,7 @@ class AdminDietController extends AbstractController
             $this->addFlash('success', 'Régime modifié.');
             return $this->redirectToRoute('admin_diets');
         }
-        return $this->render('admin/diets/edit.html.twig', ['diet' => $diet]);
+        return $this->render('backoffice/diets/edit.html.twig', ['diet' => $diet]);
     }
 
     #[Route('/diets/{id}/delete', name: 'admin_diets_delete', methods: ['POST'])]

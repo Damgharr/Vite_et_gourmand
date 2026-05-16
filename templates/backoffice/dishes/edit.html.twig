@@ -1,0 +1,26 @@
+{% extends 'backoffice_base.html.twig' %}
+{% block title %}Modifier plat{% endblock %}
+{% block backoffice_body %}
+    <h1>Modifier plat</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label>Titre
+            <input type="text" name="title" value="{{ dish.title }}" required>
+        </label>
+        <label>Description
+            <textarea name="description">{{ dish.description }}</textarea>
+        </label>
+        <label>Photo
+            <input type="file" name="photo" accept="image/*">
+        </label>
+        <fieldset>
+            <legend>Allergènes</legend>
+            {% for allergen in allergens %}
+                <label>
+                    <input type="checkbox" name="allergens[]" value="{{ allergen.id }}" {% if dish.allergens.contains(allergen) %}checked{% endif %}>
+                    {{ allergen.label }}
+                </label>
+            {% endfor %}
+        </fieldset>
+        <button type="submit" class="cta">Enregistrer</button>
+    </form>
+{% endblock %}

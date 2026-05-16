@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block nav %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block body %}
+<div class="admin">
+<aside>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin_dashboard') }}">Tableau de bord</a>
+        <a href="{{ path('employee_orders') }}">Commandes</a>
+        <a href="{{ path('employee_reviews') }}">Avis</a>
+        <a href="{{ path('employee_menus') }}">Menus</a>
+        <a href="{{ path('employee_dishes') }}">Plats</a>
+        <a href="{{ path('employee_opening_hours') }}">Horaires</a>
+        <a href="{{ path('admin_employees') }}">Employés</a>
+        <a href="{{ path('admin_themes') }}">Thèmes</a>
+        <a href="{{ path('admin_diets') }}">Régimes</a>
+        <a href="{{ path('admin_allergens') }}">Allergènes</a>
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ path('employee_dashboard') }}">Accueil</a>
+        <a href="{{ path('employee_orders') }}">Commandes</a>
+        <a href="{{ path('employee_reviews') }}">Avis</a>
+        <a href="{{ path('employee_menus') }}">Menus</a>
+        <a href="{{ path('employee_dishes') }}">Plats</a>
+        <a href="{{ path('employee_opening_hours') }}">Horaires</a>
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    {% endif %}
+</aside>
+<main>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <p class="flash {{ label }}">{{ message }}</p>
+        {% endfor %}
+    {% endfor %}
+    {% block backoffice_body %}{% endblock %}
+</main>
+</div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin.js') }}" type="module"></script>
+{% endblock %}
