@@ -44,25 +44,92 @@
         </section>
         <button id="load-more" data-url="{{ path('menus_more') }}" class="cta">Charger plus</button>
     </main>
+    <dialog id="menu-dialog">
+        <div id="menu-dialog-content">
+            <div id="menu-dialog-header">
+                <h2 id="dialog-title"></h2>
+                <p id="dialog-description"></p>
+            </div>
+            <div id="menu-dialog-body">
+                <div id="dialog-dishes"></div>
+                <div id="dialog-info">
+                    <p>Thème : <span id="dialog-theme"></span></p>
+                    <p>Régime : <span id="dialog-diet"></span></p>
+                    <p>Stock restant : <span id="dialog-remaining"></span></p>
+                    <p>Min. personnes : <span id="dialog-min-people"></span></p>
+                    <p>Prix/pers. : <span id="dialog-price"></span> €</p>
+                    <p>Total : <span id="dialog-total"></span> €</p>
+                    <a href="" id="dialog-order" class="cta">Commander</a>
+                    <button id="dialog-close" class="cta">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
     <script type="module">
-        const button = document.getElementById('load-more');
-        let offset = 6;
-        button.addEventListener('click', async () => {
-            const url = new URL(button.dataset.url, window.location.origin);
-            url.searchParams.set('offset', offset);
-            const current = new URL(window.location.href);
-            ['minPrice', 'maxPrice', 'theme', 'diet', 'minPeople'].forEach(p => {
-                const v = current.searchParams.get(p);
-                if (v) url.searchParams.set(p, v);
+        const dialog = document.getElementById('menu-dialog');
+        const dishesContainer = document.getElementById('dialog-dishes');
+        const orderBtn = document.getElementById('dialog-order');
+
+        function attachDetails() {
+            document.querySelectorAll('.details-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const data = JSON.parse(btn.closest('article').dataset.menu);
+                    document.getElementById('dialog-title').textContent = data.title;
+                    document.getElementById('dialog-description').textContent = data.description;
+                    document.getElementById('dialog-theme').textContent = data.theme;
+                    document.getElementById('dialog-diet').textContent = data.diet;
+                    document.getElementById('dialog-remaining').textContent = data.remaining;
+                    document.getElementById('dialog-min-people').textContent = data.minPeopleAmount;
+                    document.getElementById('dialog-price').textContent = data.pricePerPeople;
+                    document.getElementById('dialog-total').textContent = data.totalPrice;
+                    orderBtn.href = `/menus/${data.id}/order`;
+
+                    dishesContainer.innerHTML = '';
+                    data.dishes.forEach(dish => {
+                        const div = document.createElement('div');
+                        div.className = 'dish-card';
+                        div.innerHTML = `
+                            <img src="${dish.photoUrl}" alt="${dish.title}">
+                            <h3>${dish.title}</h3>
+                            <p>${dish.description}</p>
+                            <div class="allergens">${dish.allergens.map(a => `<span>${a}</span>`).join('')}</div>
+                        `;
+                        dishesContainer.appendChild(div);
+                    });
+
+                    dialog.showModal();
+                });
             });
-            const res = await fetch(url);
-            const data = await res.json();
-            document.getElementById('menus').insertAdjacentHTML('beforeend', data.html);
-            offset += 6;
-            if (!data.hasMore) {
-                button.textContent = "Il n'y a plus de menus à afficher.";
-                button.disabled = true;
-            }
+        }
+
+        attachDetails();
+
+        document.getElementById('dialog-close').addEventListener('click', () => dialog.close());
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) dialog.close();
         });
+
+        const loadBtn = document.getElementById('load-more');
+        if (loadBtn) {
+            let offset = 6;
+            loadBtn.addEventListener('click', async () => {
+                const url = new URL(loadBtn.dataset.url, window.location.origin);
+                url.searchParams.set('offset', offset);
+                const current = new URL(window.location.href);
+                ['minPrice', 'maxPrice', 'theme', 'diet', 'minPeople'].forEach(p => {
+                    const v = current.searchParams.get(p);
+                    if (v) url.searchParams.set(p, v);
+                });
+                const res = await fetch(url);
+                const data = await res.json();
+                document.getElementById('menus').insertAdjacentHTML('beforeend', data.html);
+                offset += 6;
+                if (!data.hasMore) {
+                    loadBtn.textContent = "Il n'y a plus de menus à afficher.";
+                    loadBtn.disabled = true;
+                }
+                attachDetails();
+            });
+        }
     </script>
 {% endblock %}

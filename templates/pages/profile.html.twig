@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Mon espace</h1>
+        {% for message in app.flashes('success') %}
+            <p class="flash success">{{ message }}</p>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <p class="flash error">{{ message }}</p>
+        {% endfor %}
+        <div class="profile-layout">
+            <section class="info-card">
+                <h2>Mes informations</h2>
+                <p><strong>Prénom :</strong> {{ user.firstName }}</p>
+                <p><strong>Nom :</strong> {{ user.lastName }}</p>
+                <p><strong>Téléphone :</strong> {{ user.phone }}</p>
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>Adresse :</strong> {{ user.adress|default('—') }}</p>
+                <p><strong>Ville :</strong> {{ user.city|default('—') }}</p>
+                <p><strong>Code postal :</strong> {{ user.zipCode|default('—') }}</p>
+                <p><strong>Pays :</strong> {{ user.country|default('—') }}</p>
+                <a href="{{ path('profile_edit') }}" class="cta">Modifier mes informations</a>
+            </section>
+            <section class="orders-card">
+                <h2>Mes commandes</h2>
+                {% if orders|length > 0 %}
+                    <div class="orders-list">
+                        {% for order in orders %}
+                            {% set clientStatus = order.status == 'en attente' ? 'en attente' : order.status in ['en préparation', 'en livraison', 'en attente du retour de matériel'] ? 'acceptée' : order.status == 'terminée' ? 'terminée' : order.status %}
+                            <article class="order-item">
+                                <div class="order-header">
+                                    <h3>{{ order.menu.title }}</h3>
+                                    <span class="status status-{{ clientStatus|replace({' ': '-'}) }}">{{ clientStatus|capitalize }}</span>
+                                </div>
+                                <p class="order-number">N° {{ order.orderNumber }}</p>
+                                <p>Date : {{ order.datePrestation|date('d/m/Y') }} à {{ order.deliveryHour|date('H:i') }}</p>
+                                <p>Personnes : {{ order.peopleAmount }}</p>
+                                <p>Adresse : {{ order.address }}, {{ order.zipCode }} {{ order.city }}</p>
+                                <p>Total : {{ (order.menuPrice|number_format(2, '.', '') + order.deliveryPrice|number_format(2, '.', ''))|number_format(2, ',', ' ') }} €</p>
+                                <div class="order-actions">
+                                    {% if clientStatus == 'en attente' %}
+                                        <a href="{{ path('profile_order_edit', {id: order.id}) }}" class="cta small">Modifier</a>
+                                        <form method="post" action="{{ path('profile_order_cancel', {id: order.id}) }}" onsubmit="return confirm('Annuler cette commande ?');">
+                                            <button type="submit" class="cta small danger">Annuler</button>
+                                        </form>
+                                    {% elseif clientStatus == 'acceptée' %}
+                                        <button type="button" class="cta small track-btn" data-track="{{ order.status }}">Suivre</button>
+                                    {% elseif clientStatus == 'terminée' %}
+                                        {% if order.reviews|length > 0 %}
+                                            <span class="reviewed">Avis déposé</span>
+                                        {% else %}
+                                            <a href="{{ path('profile_order_review', {id: order.id}) }}" class="cta small">Donner un avis</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Vous n'avez passé aucune commande.</p>
+                {% endif %}
+            </section>
+        </div>
+    </main>
+
+    <dialog id="track-dialog">
+        <div class="track-content">
+            <h3>Suivi de commande</h3>
+            <div class="track-steps">
+                <div class="track-step" data-step="en attente"><span class="track-dot"></span><span class="track-label">En attente</span></div>
+                <div class="track-step" data-step="en préparation"><span class="track-dot"></span><span class="track-label">En préparation</span></div>
+                <div class="track-step" data-step="en livraison"><span class="track-dot"></span><span class="track-label">En livraison</span></div>
+                <div class="track-step" data-step="en attente du retour de matériel"><span class="track-dot"></span><span class="track-label">Retour matériel</span></div>
+                <div class="track-step" data-step="terminée"><span class="track-dot"></span><span class="track-label">Terminée</span></div>
+            </div>
+            <button type="button" class="cta" id="track-close">Fermer</button>
+        </div>
+    </dialog>
+
+    <script type="module">
+        const steps = ['en attente', 'en préparation', 'en livraison', 'en attente du retour de matériel', 'terminée'];
+        const dialog = document.getElementById('track-dialog');
+        document.getElementById('track-close').addEventListener('click', () => dialog.close());
+        document.querySelectorAll('.track-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const current = btn.dataset.track;
+                const currentIdx = steps.indexOf(current);
+                dialog.querySelectorAll('.track-step').forEach(step => {
+                    const stepIdx = steps.indexOf(step.dataset.step);
+                    step.classList.toggle('active', step.dataset.step === current);
+                    step.classList.toggle('done', stepIdx < currentIdx);
+                });
+                dialog.showModal();
+            });
+        });
+    </script>
+{% endblock %}

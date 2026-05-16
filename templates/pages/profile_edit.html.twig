@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mes informations{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Modifier mes informations</h1>
+        {% if errors is defined and errors|length > 0 %}
+            <ul class="errors">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post" action="{{ path('profile_edit') }}" class="edit-form">
+            <label>Prénom
+                <input type="text" name="firstName" value="{{ user.firstName }}" required>
+            </label>
+            <label>Nom
+                <input type="text" name="lastName" value="{{ user.lastName }}" required>
+            </label>
+            <label>Téléphone
+                <input type="text" name="phone" value="{{ user.phone }}" required>
+            </label>
+            <label>Email
+                <input type="email" name="email" value="{{ user.email }}" required>
+            </label>
+            <label>Adresse
+                <input type="text" name="address" value="{{ user.adress|default('') }}">
+            </label>
+            <label>Ville
+                <input type="text" name="city" value="{{ user.city|default('') }}">
+            </label>
+            <label>Code postal
+                <input type="text" name="zipCode" value="{{ user.zipCode|default('') }}">
+            </label>
+            <label>Pays
+                <input type="text" name="country" value="{{ user.country|default('') }}">
+            </label>
+            <div class="form-actions">
+                <a href="{{ path('profile') }}" class="cta secondary">Annuler</a>
+                <button type="submit" class="cta">Enregistrer</button>
+            </div>
+        </form>
+    </main>
+{% endblock %}

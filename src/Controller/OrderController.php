@@ -60,6 +60,15 @@ class OrderController extends AbstractController
             $mailer->send($email);
         }
 
+        if ($newStatus === 'terminée' && $oldStatus !== $newStatus) {
+            $email = (new TemplatedEmail())
+                ->to($order->getUser()->getEmail())
+                ->subject('Votre commande est terminée')
+                ->htmlTemplate('emails/order_completed.html.twig')
+                ->context(['order' => $order, 'user' => $order->getUser()]);
+            $mailer->send($email);
+        }
+
         $this->addFlash('success', 'Statut mis à jour.');
         return $this->redirectToRoute('employee_orders');
     }

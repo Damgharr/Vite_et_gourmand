@@ -31,6 +31,9 @@
                 <span>Déconnexion</span>
             </a></li>
         {% elseif app.user %}
+            <li><a href="{{ path('profile') }}" class="cta">
+                <span>Mon espace</span>
+            </a></li>
             <li><a href="{{ path('app_logout') }}" class="cta">
                 <span>Déconnexion</span>
             </a></li>
@@ -46,14 +49,15 @@
 </nav>
 <script type="module">
     const nav = document.querySelector("nav");
-    if (!nav) return;
-    const button = nav.querySelector("button");
-    const ul = nav.querySelector("ul");
-    button.addEventListener("click", () => ul.classList.toggle("open"));
-    nav.addEventListener("click", (e) => {
-        if (e.target === nav && ul.classList.contains("open")) {
-            ul.classList.remove("open");
-        }
-    });
+    if (nav) {
+        const button = nav.querySelector("button");
+        const ul = nav.querySelector("ul");
+        button.addEventListener("click", () => ul.classList.toggle("open"));
+        nav.addEventListener("click", (e) => {
+            if (e.target === nav && ul.classList.contains("open")) {
+                ul.classList.remove("open");
+            }
+        });
+    }
 </script>
 {% endblock %}

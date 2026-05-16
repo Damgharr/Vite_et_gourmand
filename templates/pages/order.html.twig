@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commander — {{ menu.title }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/order.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Commander — {{ menu.title }}</h1>
+        {% if errors is defined and errors|length > 0 %}
+            <ul class="errors">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="order-layout">
+            <form method="post" action="{{ path('menu_order', {id: menu.id}) }}" id="order-form" data-delivery-url="{{ path('menu_delivery_price', {id: menu.id}) }}">
+                <h2>Vos informations</h2>
+                <label>Prénom
+                    <input type="text" name="firstName" value="{{ firstName|default('') }}" required>
+                </label>
+                <label>Nom
+                    <input type="text" name="lastName" value="{{ lastName|default('') }}" required>
+                </label>
+                <label>Téléphone
+                    <input type="text" name="phone" value="{{ phone|default('') }}" required>
+                </label>
+                <label>Email
+                    <input type="email" name="email" value="{{ email|default('') }}" required>
+                </label>
+                <h2>Adresse de livraison</h2>
+                <label>Adresse
+                    <input type="text" name="address" id="address" value="{{ address|default('') }}" required>
+                </label>
+                <label>Ville
+                    <input type="text" name="city" id="city" value="{{ city|default('') }}" required>
+                </label>
+                <label>Code postal
+                    <input type="text" name="zipCode" id="zip-code" value="{{ zipCode|default('') }}" required>
+                </label>
+                <label>Pays
+                    <input type="text" name="country" id="country" value="{{ country|default('France') }}" required>
+                </label>
+                <h2>Détails de la commande</h2>
+                <label>Date de livraison
+                    <input type="date" name="datePrestation" value="{{ datePrestation|default('') }}" required>
+                </label>
+                <label>Heure de livraison
+                    <input type="time" name="deliveryHour" value="{{ deliveryHour|default('') }}" required>
+                </label>
+                <label>Nombre de personnes
+                    <input type="number" name="peopleAmount" id="people-amount" value="{{ peopleAmount|default(menu.minPeopleAmount) }}" min="{{ menu.minPeopleAmount }}" required>
+                </label>
+                <input type="hidden" id="price-per-people" value="{{ menu.pricePerPeople }}">
+                <div class="price-breakdown">
+                    <p>Montant menu : <span id="menu-amount">{{ menu.totalPrice }}</span> €</p>
+                    <p>Frais de livraison : <span id="delivery-amount">0.00</span> €</p>
+                    <p class="total">Total : <span id="order-total">{{ menu.totalPrice }}</span> €</p>
+                </div>
+                <button type="submit" class="cta">Commander</button>
+            </form>
+            <aside>
+                <h2>Récapitulatif</h2>
+                <p>Menu : {{ menu.title }}</p>
+                <p>Thème : {{ menu.theme.label }}</p>
+                <p>Régime : {{ menu.diet.label }}</p>
+                <p>Min. personnes : {{ menu.minPeopleAmount }}</p>
+                <p>Prix/pers. : {{ menu.pricePerPeople }} €</p>
+                <p>Stock restant : {{ menu.remaining }}</p>
+            </aside>
+        </div>
+    </main>
+    <script type="module">
+        const peopleInput = document.getElementById('people-amount');
+        const pricePerPeople = parseFloat(document.getElementById('price-per-people').value);
+        const menuAmountDisplay = document.getElementById('menu-amount');
+        const deliveryAmountDisplay = document.getElementById('delivery-amount');
+        const totalDisplay = document.getElementById('order-total');
+        const addressInput = document.getElementById('address');
+        const cityInput = document.getElementById('city');
+        const zipInput = document.getElementById('zip-code');
+        const countryInput = document.getElementById('country');
+        const form = document.getElementById('order-form');
+        const deliveryUrl = form.dataset.deliveryUrl;
+
+        function updateTotal() {
+            const menuAmount = parseFloat(menuAmountDisplay.textContent) || 0;
+            const deliveryAmount = parseFloat(deliveryAmountDisplay.textContent) || 0;
+            totalDisplay.textContent = (menuAmount + deliveryAmount).toFixed(2);
+        }
+
+        function updateMenuAmount() {
+            const count = parseInt(peopleInput.value) || 0;
+            menuAmountDisplay.textContent = (count * pricePerPeople).toFixed(2);
+            updateTotal();
+        }
+
+        function debounce(fn, ms) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn(...args), ms);
+            };
+        }
+
+        async function fetchDeliveryPrice() {
+            const address = addressInput.value.trim();
+            const city = cityInput.value.trim();
+            const zipCode = zipInput.value.trim();
+            const country = countryInput.value.trim();
+
+            if (!address || !city || !zipCode) {
+                deliveryAmountDisplay.textContent = '0.00';
+                updateTotal();
+                return;
+            }
+
+            const data = new FormData();
+            data.append('address', address);
+            data.append('city', city);
+            data.append('zipCode', zipCode);
+            data.append('country', country);
+
+            try {
+                const response = await fetch(deliveryUrl, { method: 'POST', body: data });
+                const result = await response.json();
+                if (response.ok) {
+                    deliveryAmountDisplay.textContent = result.price.toFixed(2);
+                } else {
+                    deliveryAmountDisplay.textContent = '0.00';
+                }
+            } catch {
+                deliveryAmountDisplay.textContent = '0.00';
+            }
+            updateTotal();
+        }
+
+        peopleInput.addEventListener('input', updateMenuAmount);
+        [addressInput, cityInput, zipInput, countryInput].forEach(input => {
+            input.addEventListener('input', debounce(fetchDeliveryPrice, 800));
+        });
+
+        updateMenuAmount();
+        fetchDeliveryPrice();
+    </script>
+{% endblock %}

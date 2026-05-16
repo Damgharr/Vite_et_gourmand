@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier commande — {{ order.orderNumber }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/order.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Modifier la commande — {{ order.orderNumber }}</h1>
+        {% if errors is defined and errors|length > 0 %}
+            <ul class="errors">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="order-layout">
+            <form method="post" action="{{ path('profile_order_edit', {id: order.id}) }}">
+                <h2>Détails de la commande</h2>
+                <label>Menu sélectionné
+                    <input type="text" value="{{ order.menu.title }}" disabled>
+                </label>
+                <label>Date de livraison
+                    <input type="date" name="datePrestation" value="{{ datePrestation|default('') }}" required>
+                </label>
+                <label>Heure de livraison
+                    <input type="time" name="deliveryHour" value="{{ deliveryHour|default('') }}" required>
+                </label>
+                <label>Nombre de personnes
+                    <input type="number" name="peopleAmount" value="{{ peopleAmount|default(order.menu.minPeopleAmount) }}" min="{{ order.menu.minPeopleAmount }}" required>
+                </label>
+                <h2>Adresse de livraison</h2>
+                <label>Adresse
+                    <input type="text" name="address" value="{{ address|default('') }}" required>
+                </label>
+                <label>Ville
+                    <input type="text" name="city" value="{{ city|default('') }}" required>
+                </label>
+                <label>Code postal
+                    <input type="text" name="zipCode" value="{{ zipCode|default('') }}" required>
+                </label>
+                <label>Pays
+                    <input type="text" name="country" value="{{ country|default('France') }}" required>
+                </label>
+                <div class="form-actions">
+                    <a href="{{ path('profile') }}" class="cta secondary">Annuler</a>
+                    <button type="submit" class="cta">Enregistrer les modifications</button>
+                </div>
+            </form>
+            <aside>
+                <h2>Récapitulatif</h2>
+                <p>Menu : {{ order.menu.title }}</p>
+                <p>Thème : {{ order.menu.theme.label }}</p>
+                <p>Régime : {{ order.menu.diet.label }}</p>
+                <p>Min. personnes : {{ order.menu.minPeopleAmount }}</p>
+                <p>Prix/pers. : {{ order.menu.pricePerPeople }} €</p>
+            </aside>
+        </div>
+    </main>
+{% endblock %}
