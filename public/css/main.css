@@ -32,6 +32,7 @@ body {
 
 .cta {
     padding: 1rem;
+    width: fit-content;
     font-family: "Lato-Black";
     border-radius: 16px;
     background-color: var(--primary-black);
@@ -41,6 +42,11 @@ body {
     border: none;
     cursor: pointer;
     font-size: 1rem;
+
+    &.inverted {
+        background-color: var(--primary-pink);
+        color: var(--primary-black);
+    }
 }
 
 /************/
@@ -63,10 +69,8 @@ nav {
 
         & :nth-child(1) {grid-column: 1; justify-self: left;}
         & :nth-child(2) {grid-column: 4 / 6; justify-self: center;}
-        & :nth-child(3) {grid-column: 6; justify-self: right;}
-        & :nth-child(4) {grid-column: 7; justify-self: right;}
-        & :nth-child(5) {grid-column: 7; justify-self: right;}
-        & :nth-child(6) {grid-column: 8; justify-self: right;}
+        & :nth-child(3) {grid-column: 7; justify-self: right;}
+        & :nth-child(4) {grid-column: 8; justify-self: right;}
 
         & a {
             margin: auto;
@@ -105,12 +109,13 @@ nav {
 /********/ 
 footer {
     width: 100%;
-    padding: 2rem;
+    padding: 1rem;
     box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
 
     color: var(--primary-pink);
     background-color: var(--primary-black);
@@ -123,6 +128,10 @@ footer {
 
         & > p {
             margin: 0;
+
+            & > span {
+                font-family: "Lato-Black";
+            }
         }
 
         & > a {
@@ -133,17 +142,30 @@ footer {
 
 
 main {
-    & > form {
+    margin: 12rem 0 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+
+    & form {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        max-width: 400px;
+        max-width: 768px;
         margin: 0 auto;
 
-        & > label {
+        & label {
             display: flex;
             flex-direction: column;
             gap: .25rem;
+            font-family: "Lato-Black";
+
+            & > input, textarea {
+                padding: .5rem;
+                border-radius: 16px;
+                border-color: var(--primary-pink);
+            }
 
             & > .field-error {
                 color: #d32f2f;
@@ -193,16 +215,18 @@ nav {
         border-radius: 0 0 16px 16px;
         box-shadow: var(--box-shadow-pink);
 
-        & > li > a {
-            box-shadow: unset !important;
-            background-color: unset !important;
-            
-            
+        & > li {
+
+            & > a {
+                box-shadow: unset !important;
+                background-color: unset !important;
+            }
+
             &:nth-child(2) > a {
                 flex-direction: row;
                 font-size: 1rem;
-                & > img {width: 32px;}
-            }
+                & > img {width: 48px;}
+            }    
         }
 
         &.open {
@@ -220,6 +244,14 @@ nav {
         & > button {
             display: none;
         }
+    }
+}
+
+main {
+    margin: 4rem 0;
+
+    & > section {
+        flex-direction: column;
     }
 }
 

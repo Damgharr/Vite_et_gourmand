@@ -8,25 +8,32 @@
 
 {% block body %}
     <main>
-        <h1>Mon espace</h1>
+        <h1>Bienvenue {{ user.firstName }} {{ user.lastName }} </h1>
         {% for message in app.flashes('success') %}
             <p class="flash success">{{ message }}</p>
         {% endfor %}
         {% for message in app.flashes('error') %}
             <p class="flash error">{{ message }}</p>
         {% endfor %}
-        <div>
+
             <section>
                 <h2>Mes informations</h2>
-                <p><strong>Prénom :</strong> {{ user.firstName }}</p>
-                <p><strong>Nom :</strong> {{ user.lastName }}</p>
-                <p><strong>Téléphone :</strong> {{ user.phone }}</p>
-                <p><strong>Email :</strong> {{ user.email }}</p>
-                <p><strong>Adresse :</strong> {{ user.adress|default('—') }}</p>
-                <p><strong>Ville :</strong> {{ user.city|default('—') }}</p>
-                <p><strong>Code postal :</strong> {{ user.zipCode|default('—') }}</p>
-                <p><strong>Pays :</strong> {{ user.country|default('—') }}</p>
-                <a href="{{ path('profile_edit') }}" class="cta">Modifier mes informations</a>
+                <div>
+                    <p><strong>Prénom :</strong> {{ user.firstName }}</p>
+                    <p><strong>Nom :</strong> {{ user.lastName }}</p>
+                    <p><strong>Téléphone :</strong> {{ user.phone }}</p>
+                    <p><strong>Email :</strong> {{ user.email }}</p>
+                </div>
+                <div>
+                    <p><strong>Adresse :</strong> {{ user.adress|default('—') }}</p>
+                    <p><strong>Ville :</strong> {{ user.city|default('—') }}</p>
+                    <p><strong>Code postal :</strong> {{ user.zipCode|default('—') }}</p>
+                    <p><strong>Pays :</strong> {{ user.country|default('—') }}</p>
+                </div>
+                <div>
+                    <a href="{{ path('profile_edit') }}" class="cta inverted">Modifier mes informations</a>
+                    <a href="{{ path('app_logout') }}" class="cta inverted">Se déconnecter</a>
+                </div>
             </section>
             <section>
                 <h2>Mes commandes</h2>
@@ -46,17 +53,17 @@
                                 <p>Total : {{ (order.menuPrice|number_format(2, '.', '') + order.deliveryPrice|number_format(2, '.', ''))|number_format(2, ',', ' ') }} €</p>
                                 <div>
                                     {% if clientStatus == 'en attente' %}
-                                        <a href="{{ path('profile_order_edit', {id: order.id}) }}" class="cta small">Modifier</a>
+                                        <a href="{{ path('profile_order_edit', {id: order.id}) }}" class="cta">Modifier</a>
                                         <form method="post" action="{{ path('profile_order_cancel', {id: order.id}) }}" onsubmit="return confirm('Annuler cette commande ?');">
-                                            <button type="submit" class="cta small danger">Annuler</button>
+                                            <button type="submit" class="cta danger">Annuler</button>
                                         </form>
                                     {% elseif clientStatus == 'acceptée' %}
-                                        <button type="button" class="cta small track-btn" data-track="{{ order.status }}">Suivre</button>
+                                        <button type="button" class="cta track-btn" data-track="{{ order.status }}">Suivre</button>
                                     {% elseif clientStatus == 'terminée' %}
                                         {% if order.reviews|length > 0 %}
                                             <span>Avis déposé</span>
                                         {% else %}
-                                            <a href="{{ path('profile_order_review', {id: order.id}) }}" class="cta small">Donner un avis</a>
+                                            <a href="{{ path('profile_order_review', {id: order.id}) }}" class="cta">Donner un avis</a>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -67,7 +74,7 @@
                     <p>Vous n'avez passé aucune commande.</p>
                 {% endif %}
             </section>
-        </div>
+
     </main>
 
     <dialog id="track-dialog">

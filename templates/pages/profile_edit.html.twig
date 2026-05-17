@@ -17,33 +17,37 @@
             </ul>
         {% endif %}
         <form method="post" action="{{ path('profile_edit') }}" class="edit-form">
-            <label>Prénom
-                <input type="text" name="firstName" value="{{ user.firstName }}" required>
-            </label>
-            <label>Nom
-                <input type="text" name="lastName" value="{{ user.lastName }}" required>
-            </label>
-            <label>Téléphone
-                <input type="text" name="phone" value="{{ user.phone }}" required>
-            </label>
-            <label>Email
-                <input type="email" name="email" value="{{ user.email }}" required>
-            </label>
-            <label>Adresse
-                <input type="text" name="address" value="{{ user.adress|default('') }}">
-            </label>
-            <label>Ville
-                <input type="text" name="city" value="{{ user.city|default('') }}">
-            </label>
-            <label>Code postal
-                <input type="text" name="zipCode" value="{{ user.zipCode|default('') }}">
-            </label>
-            <label>Pays
-                <input type="text" name="country" value="{{ user.country|default('') }}">
-            </label>
+            <div>
+                <label>Prénom
+                    <input type="text" name="firstName" value="{{ user.firstName }}" required>
+                </label>
+                <label>Nom
+                    <input type="text" name="lastName" value="{{ user.lastName }}" required>
+                </label>
+                <label>Téléphone
+                    <input type="text" name="phone" value="{{ user.phone }}" required>
+                </label>
+                <label>Email
+                    <input type="email" name="email" value="{{ user.email }}" required>
+                </label>
+            </div>
+            <div>
+                <label>Adresse
+                    <input type="text" name="address" value="{{ user.adress|default('') }}">
+                </label>
+                <label>Ville
+                    <input type="text" name="city" value="{{ user.city|default('') }}">
+                </label>
+                <label>Code postal
+                    <input type="text" name="zipCode" value="{{ user.zipCode|default('') }}">
+                </label>
+                <label>Pays
+                    <input type="text" name="country" value="{{ user.country|default('') }}">
+                </label>
+            </div>
             <div class="form-actions">
-                <a href="{{ path('profile') }}" class="cta secondary">Annuler</a>
-                <button type="submit" class="cta">Enregistrer</button>
+                <a href="{{ path('profile') }}" class="cta inverted">Annuler</a>
+                <button type="submit" class="cta inverted">Enregistrer</button>
             </div>
         </form>
     </main>

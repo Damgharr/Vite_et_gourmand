@@ -1,0 +1,19 @@
+main {
+    & > section {
+        display: flex;
+        gap: 2rem;
+    } div {
+        padding: 1rem;
+        color: var(--primary-pink);
+        background-color: var(--primary-black);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        border-radius: 16px;
+
+        & > * {
+            margin: 0;
+        }
+    }
+}

@@ -18,18 +18,22 @@
         </a></li>
         {% if is_granted('ROLE_ADMIN') %}
             <li><a href="{{ path('admin_dashboard') }}" class="cta">
+                <img src="{{ asset('icon/userIcon.svg') }}" alt="Espace Personnel">
                 <span>Espace administrateur</span>
             </a></li>
         {% elseif is_granted('ROLE_EMPLOYEE') %}
             <li><a href="{{ path('employee_dashboard') }}" class="cta">
+                <img src="{{ asset('icon/userIcon.svg') }}" alt="Espace Personnel">
                 <span>Espace employé</span>
             </a></li>
         {% elseif app.user %}
             <li><a href="{{ path('profile') }}" class="cta">
+                <img src="{{ asset('icon/userIcon.svg') }}" alt="Espace Personnel">
                 <span>Mon espace</span>
             </a></li>
         {% else %}
             <li><a href="{{ path('app_login') }}" class="cta">
+                <img src="{{ asset('icon/userIcon.svg') }}" alt="Connexion">
                 <span>Connexion</span>
             </a></li>
         {% endif %}

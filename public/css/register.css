@@ -1,0 +1,39 @@
+form {
+
+    & > div {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    & > div:first-child {
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+    }
+
+    & > div:nth-child(2) {
+        grid-template-columns: repeat(2, minmax(100px, calc(768px / 4)));
+    }
+
+    & > div:nth-child(3) {
+        grid-template-columns: repeat(3, minmax(100px, calc(768px / 4)));
+    }
+
+    & > button {
+        margin-top: 1rem;
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px)  {
+    main > form {
+        width: calc(100% - 2rem);
+        margin: 0 1rem;
+
+        & > div {
+            display: unset;
+
+            & label {
+                margin-bottom: .5rem;
+            }
+        }
+    }
+}

@@ -86,13 +86,14 @@
 
                     dishesContainer.innerHTML = '';
                     data.dishes.forEach(dish => {
+                        const uniqueAllergens = [...new Set(dish.allergens)];
                         const div = document.createElement('div');
                         div.className = 'dish-card';
                         div.innerHTML = `
                             <img src="${dish.photoUrl}" alt="${dish.title}">
                             <h3>${dish.title}</h3>
                             <p>${dish.description}</p>
-                            <div class="allergens">${dish.allergens.map(a => `<span>${a}</span>`).join('')}</div>
+                            <div class="allergens">${uniqueAllergens.map(a => `<span>${a}</span>`).join('')}</div>
                         `;
                         dishesContainer.appendChild(div);
                     });

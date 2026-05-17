@@ -1,42 +1,49 @@
 {% extends 'base.html.twig' %}
 {% block title %}Inscription{% endblock %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('css/register.css') }}"> {% endblock %}
 {% block body %}
 <main>
     <h1>Inscription</h1>
     <form method="post" action="{{ path('app_register') }}" novalidate>
-        <label>Prénom
-            <input type="text" name="firstName" value="{{ firstName|default('') }}">
-            <span class="field-error"></span>
-        </label>
-        <label>Nom
-            <input type="text" name="lastName" value="{{ lastName|default('') }}">
-            <span class="field-error"></span>
-        </label>
-        <label>Téléphone
-            <input type="text" name="phone" value="{{ phone|default('') }}">
-            <span class="field-error"></span>
-        </label>
-        <label>Email
-            <input type="email" name="email" value="{{ email|default('') }}">
-            <span class="field-error"></span>
-        </label>
-        <label>Mot de passe
-            <input type="password" name="password">
-            <span class="field-error"></span>
-        </label>
-        <label>Confirmer le mot de passe
-            <input type="password" name="passwordConfirm">
-            <span class="field-error"></span>
-        </label>
-        <label>Pays
-            <input type="text" name="country" value="{{ country|default('') }}">
-        </label>
-        <label>Ville
-            <input type="text" name="city" value="{{ city|default('') }}">
-        </label>
-        <label>Code postal
-            <input type="text" name="zipCode" value="{{ zipCode|default('') }}">
-        </label>
+        <div>
+            <label>Prénom
+                <input type="text" name="firstName" value="{{ firstName|default('') }}">
+                <span class="field-error"></span>
+            </label>
+            <label>Nom
+                <input type="text" name="lastName" value="{{ lastName|default('') }}">
+                <span class="field-error"></span>
+            </label>
+            <label>Téléphone
+                <input type="text" name="phone" value="{{ phone|default('') }}">
+                <span class="field-error"></span>
+            </label>
+            <label>Email
+                <input type="email" name="email" value="{{ email|default('') }}">
+                <span class="field-error"></span>
+            </label>
+        </div>
+        <div>
+            <label>Mot de passe
+                <input type="password" name="password">
+                <span class="field-error"></span>
+            </label>
+            <label>Confirmer le mot de passe
+                <input type="password" name="passwordConfirm">
+                <span class="field-error"></span>
+            </label>
+        </div>
+        <div>
+            <label>Pays
+                <input type="text" name="country" value="{{ country|default('') }}">
+            </label>
+            <label>Ville
+                <input type="text" name="city" value="{{ city|default('') }}">
+            </label>
+            <label>Code postal
+                <input type="text" name="zipCode" value="{{ zipCode|default('') }}">
+            </label>
+        </div>
         <label>Adresse
             <textarea name="adress">{{ adress|default('') }}</textarea>
         </label>

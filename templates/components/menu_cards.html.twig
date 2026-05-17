@@ -17,15 +17,19 @@
             allergens: d.allergens|map(a => a.label)
         })
     }|json_encode|e('html_attr') }}">
-        <h2>{{ menu.title }}</h2>
-        <p>{{ menu.description }}</p>
         <div>
-            <span>{{ menu.theme.label }}</span>
-            <span>{{ menu.diet.label }}</span>
+            <h2>{{ menu.title }}</h2>
+            <p>{{ menu.description }}</p>
+            <div>
+                <span>{{ menu.theme.label }}</span>
+                <span>{{ menu.diet.label }}</span>
+            </div>
         </div>
-        <p>Minimum {{ menu.minPeopleAmount }} personnes</p>
-        <p>{{ menu.pricePerPeople }} € / personne</p>
-        <p>Total : {{ menu.totalPrice }} €</p>
-        <button class="cta details-btn">Détails</button>
+        <div>
+            <p>Minimum {{ menu.minPeopleAmount }} personnes</p>
+            <p>{{ menu.pricePerPeople }} € / personne</p>
+            <p>Total : {{ menu.totalPrice }} €</p>
+            <button class="cta inverted details-btn">Détails</button>
+        </div>
     </article>
 {% endfor %}
