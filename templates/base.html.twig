@@ -16,6 +16,6 @@
     <body>
         {% block nav %}{% include "components/nav.html.twig" %}{% endblock %}
         {% block body %}{% endblock %}
-        {% block footer %}{% include "components/footer.html.twig" %}{% endblock %}
+        {% block footer %}{{ render(controller('App\\Controller\\FooterController::footer')) }}{% endblock %}
     </body>
 </html>

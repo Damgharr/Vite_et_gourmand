@@ -170,7 +170,11 @@ final class MenusController extends AbstractController
                 $order->setOrderDate(new \DateTimeImmutable());
                 $order->setDatePrestation($datePrestation);
                 $order->setDeliveryHour($deliveryHour);
-                $order->setMenuPrice((string) ((float) $menu->getPricePerPeople() * $peopleAmount));
+                $menuPrice = (float) $menu->getPricePerPeople() * $peopleAmount;
+                if ($peopleAmount >= $menu->getMinPeopleAmount() + 5) {
+                    $menuPrice = $menuPrice * 0.9;
+                }
+                $order->setMenuPrice((string) $menuPrice);
                 $order->setDeliveryPrice($deliveryPrice);
                 $order->setPeopleAmount($peopleAmount);
                 $order->setStatus('en attente');

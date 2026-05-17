@@ -113,7 +113,7 @@ main {
                 aspect-ratio: 1 / 1;
             }
 
-            &.navigate-right > img {
+            &:last-of-type > img {
                 transform: rotate(180deg);
             }
         }

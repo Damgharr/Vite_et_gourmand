@@ -48,14 +48,15 @@
     </dialog>
     <script type="module">
         const dialog = document.getElementById('cancel-dialog');
-        if (!dialog) return;
-        const form = dialog.querySelector('form');
-        document.querySelectorAll('.cancel-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                form.action = `/employee/orders/${btn.dataset.cancel}/cancel`;
-                dialog.showModal();
+        if (dialog) {
+            const form = dialog.querySelector('form');
+            document.querySelectorAll('.cancel-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    form.action = `/employee/orders/${btn.dataset.cancel}/cancel`;
+                    dialog.showModal();
+                });
             });
-        });
-        dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+            dialog.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+        }
     </script>
 {% endblock %}

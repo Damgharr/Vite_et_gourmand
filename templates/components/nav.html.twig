@@ -8,7 +8,7 @@
             <img src="{{ asset('icon/homepageIcon.svg') }}" alt="Accueil">
             <span>Accueil</span>
         </a></li>
-        <li><a href="{{ path('menus') }}" class="menu cta">
+        <li><a href="{{ path('menus') }}" class="cta">
             <img src="{{ asset('icon/menusIcon.svg') }}" alt="Menus">
             <span>Menus</span>
         </a></li>
@@ -18,31 +18,19 @@
         </a></li>
         {% if is_granted('ROLE_ADMIN') %}
             <li><a href="{{ path('admin_dashboard') }}" class="cta">
-                <span>Backoffice</span>
-            </a></li>
-            <li><a href="{{ path('app_logout') }}" class="cta">
-                <span>Déconnexion</span>
+                <span>Espace administrateur</span>
             </a></li>
         {% elseif is_granted('ROLE_EMPLOYEE') %}
             <li><a href="{{ path('employee_dashboard') }}" class="cta">
                 <span>Espace employé</span>
             </a></li>
-            <li><a href="{{ path('app_logout') }}" class="cta">
-                <span>Déconnexion</span>
-            </a></li>
         {% elseif app.user %}
             <li><a href="{{ path('profile') }}" class="cta">
                 <span>Mon espace</span>
             </a></li>
-            <li><a href="{{ path('app_logout') }}" class="cta">
-                <span>Déconnexion</span>
-            </a></li>
         {% else %}
             <li><a href="{{ path('app_login') }}" class="cta">
                 <span>Connexion</span>
-            </a></li>
-            <li><a href="{{ path('app_register') }}" class="cta">
-                <span>Inscription</span>
             </a></li>
         {% endif %}
     </ul>

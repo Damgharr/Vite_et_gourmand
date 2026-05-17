@@ -53,6 +53,7 @@ class OrderController extends AbstractController
 
         if ($newStatus === 'en attente du retour de matériel' && $oldStatus !== $newStatus) {
             $email = (new TemplatedEmail())
+                ->from('noreply@viteetgourmand.fr')
                 ->to($order->getUser()->getEmail())
                 ->subject('Retour de matériel')
                 ->htmlTemplate('emails/equipment_return.html.twig')
@@ -62,6 +63,7 @@ class OrderController extends AbstractController
 
         if ($newStatus === 'terminée' && $oldStatus !== $newStatus) {
             $email = (new TemplatedEmail())
+                ->from('noreply@viteetgourmand.fr')
                 ->to($order->getUser()->getEmail())
                 ->subject('Votre commande est terminée')
                 ->htmlTemplate('emails/order_completed.html.twig')
@@ -74,11 +76,28 @@ class OrderController extends AbstractController
     }
 
     #[Route('/orders/{id}/cancel', name: 'employee_orders_cancel', methods: ['POST'])]
-    public function cancel(Order $order, Request $request, EntityManagerInterface $em): Response
+    public function cancel(Order $order, Request $request, EntityManagerInterface $em, MailerInterface $mailer): Response
     {
+        $contactMethod = $request->request->get('contactMethod');
+        $reason = $request->request->get('reason');
+
         $order->setStatus('annulée');
         $em->flush();
-        $this->addFlash('success', 'Commande annulée. Contact : ' . $request->request->get('contactMethod') . '. Motif : ' . $request->request->get('reason'));
+
+        $email = (new TemplatedEmail())
+            ->from('noreply@viteetgourmand.fr')
+            ->to($order->getUser()->getEmail())
+            ->subject('Annulation de votre commande')
+            ->htmlTemplate('emails/order_cancelled.html.twig')
+            ->context([
+                'order' => $order,
+                'user' => $order->getUser(),
+                'contactMethod' => $contactMethod,
+                'reason' => $reason,
+            ]);
+        $mailer->send($email);
+
+        $this->addFlash('success', 'Commande annulée. Contact : ' . $contactMethod . '. Motif : ' . $reason);
         return $this->redirectToRoute('employee_orders');
     }
 }

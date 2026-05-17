@@ -55,10 +55,13 @@
                     <input type="number" name="peopleAmount" id="people-amount" value="{{ peopleAmount|default(menu.minPeopleAmount) }}" min="{{ menu.minPeopleAmount }}" required>
                 </label>
                 <input type="hidden" id="price-per-people" value="{{ menu.pricePerPeople }}">
-                <div class="price-breakdown">
+                <input type="hidden" id="min-people" value="{{ menu.minPeopleAmount }}">
+                <p id="discount-info"></p>
+                <div>
                     <p>Montant menu : <span id="menu-amount">{{ menu.totalPrice }}</span> €</p>
+                    <p id="discount-line">Réduction -10% : -<span id="discount-amount">0.00</span> €</p>
                     <p>Frais de livraison : <span id="delivery-amount">0.00</span> €</p>
-                    <p class="total">Total : <span id="order-total">{{ menu.totalPrice }}</span> €</p>
+                    <p>Total : <span id="order-total">{{ menu.totalPrice }}</span> €</p>
                 </div>
                 <button type="submit" class="cta">Commander</button>
             </form>
@@ -76,7 +79,12 @@
     <script type="module">
         const peopleInput = document.getElementById('people-amount');
         const pricePerPeople = parseFloat(document.getElementById('price-per-people').value);
+        const minPeople = parseInt(document.getElementById('min-people').value);
+        const discountThreshold = minPeople + 5;
         const menuAmountDisplay = document.getElementById('menu-amount');
+        const discountAmountDisplay = document.getElementById('discount-amount');
+        const discountLine = document.getElementById('discount-line');
+        const discountInfo = document.getElementById('discount-info');
         const deliveryAmountDisplay = document.getElementById('delivery-amount');
         const totalDisplay = document.getElementById('order-total');
         const addressInput = document.getElementById('address');
@@ -94,7 +102,25 @@
 
         function updateMenuAmount() {
             const count = parseInt(peopleInput.value) || 0;
-            menuAmountDisplay.textContent = (count * pricePerPeople).toFixed(2);
+            const baseAmount = count * pricePerPeople;
+            let finalAmount = baseAmount;
+            let discount = 0;
+
+            if (count >= discountThreshold) {
+                discount = baseAmount * 0.1;
+                finalAmount = baseAmount - discount;
+                discountInfo.textContent = 'Réduction de 10% appliquée !';
+                discountInfo.style.color = '#2e7d32';
+                discountLine.style.display = 'flex';
+            } else {
+                const needed = discountThreshold - count;
+                discountInfo.textContent = `Ajoutez ${needed} personne${needed > 1 ? 's' : ''} pour bénéficier de 10% de réduction.`;
+                discountInfo.style.color = '#757575';
+                discountLine.style.display = 'none';
+            }
+
+            menuAmountDisplay.textContent = finalAmount.toFixed(2);
+            discountAmountDisplay.textContent = discount.toFixed(2);
             updateTotal();
         }
 

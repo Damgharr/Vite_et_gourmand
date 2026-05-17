@@ -1,10 +1,17 @@
-{% block footer %}
 <footer>
-    <h3>Ouvert de 11h à 21h, 7/7j</h3>
+    <h3>Horaires d'ouverture</h3>
+    <div>
+        <p>Lundi : {{ hours.Lundi }}</p>
+        <p>Mardi : {{ hours.Mardi }}</p>
+        <p>Mercredi : {{ hours.Mercredi }}</p>
+        <p>Jeudi : {{ hours.Jeudi }}</p>
+        <p>Vendredi : {{ hours.Vendredi }}</p>
+        <p>Samedi : {{ hours.Samedi }}</p>
+        <p>Dimanche : {{ hours.Dimanche }}</p>
+    </div>
     <div>
         <p>© 2026 Vite et Gourmand</p>
         <a href="">CGU</a>
         <a href="">Mentions légales</a>
     </div>
 </footer>
-{% endblock %}

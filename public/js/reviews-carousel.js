@@ -1,25 +1,47 @@
 const section = document.getElementById('reviews');
-const track = section.querySelector('& > div > div');
-const leftBtn = section.querySelector('.navigate-left');
-const rightBtn = section.querySelector('.navigate-right');
-const cards = section.querySelectorAll('& > div > div > div');
+const track = section.querySelector('section > div > div');
+const leftBtn = section.querySelector('button:first-of-type');
+const rightBtn = section.querySelector('button:last-of-type');
+const cards = section.querySelectorAll('section > div > div > div');
 
 let currentIndex = 0;
-let itemsPerView = window.innerWidth > 480 ? 3 : 1;
-const maxIndex = cards.length - itemsPerView;
+
+function isDesktop() {
+    return window.innerWidth > 480;
+}
+
+function getItemsPerView() {
+    return isDesktop() ? 3 : 1;
+}
+
+function getMaxIndex() {
+    return Math.max(0, cards.length - getItemsPerView());
+}
+
+console.log(cards);
 
 function updateCarousel() {
-    itemsPerView = window.innerWidth > 480 ? 3 : 1;
+    console.log(currentIndex);
+
+    if (!isDesktop()) {
+        track.style.transform = '';
+        return;
+    }
+
+    const itemsPerView = getItemsPerView();
+    const maxIndex = getMaxIndex();
+
     if (currentIndex > maxIndex) {
         currentIndex = maxIndex;
     }
+
     const translatePercent = currentIndex * (100 / itemsPerView);
     track.style.transform = 'translateX(-' + translatePercent + '%)';
+
     leftBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+
     rightBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
-
 }
-
 
 leftBtn.addEventListener('click', function () {
     if (currentIndex > 0) {
@@ -29,11 +51,15 @@ leftBtn.addEventListener('click', function () {
 });
 
 
-
 rightBtn.addEventListener('click', function () {
-    if (currentIndex < maxIndex) {
+    if (currentIndex < getMaxIndex()) {
         currentIndex++;
         updateCarousel();
     }
 });
+
+
+window.addEventListener('resize', updateCarousel);
+
+updateCarousel();
 

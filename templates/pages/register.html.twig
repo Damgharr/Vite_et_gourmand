@@ -3,31 +3,30 @@
 {% block body %}
 <main>
     <h1>Inscription</h1>
-    {% if errors is defined %}
-        <ul>
-            {% for error in errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <form method="post" action="{{ path('app_register') }}">
+    <form method="post" action="{{ path('app_register') }}" novalidate>
         <label>Prénom
-            <input type="text" name="firstName" value="{{ firstName|default('') }}" required>
+            <input type="text" name="firstName" value="{{ firstName|default('') }}">
+            <span class="field-error"></span>
         </label>
         <label>Nom
-            <input type="text" name="lastName" value="{{ lastName|default('') }}" required>
+            <input type="text" name="lastName" value="{{ lastName|default('') }}">
+            <span class="field-error"></span>
         </label>
         <label>Téléphone
-            <input type="text" name="phone" value="{{ phone|default('') }}" required>
+            <input type="text" name="phone" value="{{ phone|default('') }}">
+            <span class="field-error"></span>
         </label>
         <label>Email
-            <input type="email" name="email" value="{{ email|default('') }}" required>
+            <input type="email" name="email" value="{{ email|default('') }}">
+            <span class="field-error"></span>
         </label>
         <label>Mot de passe
-            <input type="password" name="password" required>
+            <input type="password" name="password">
+            <span class="field-error"></span>
         </label>
         <label>Confirmer le mot de passe
-            <input type="password" name="passwordConfirm" required>
+            <input type="password" name="passwordConfirm">
+            <span class="field-error"></span>
         </label>
         <label>Pays
             <input type="text" name="country" value="{{ country|default('') }}">
@@ -44,4 +43,53 @@
         <button type="submit" class="cta">S'inscrire</button>
     </form>
 </main>
+<script type="module">
+    const form = document.querySelector('form[action="{{ path('app_register') }}"]');
+    const fields = {
+        firstName: { el: form.querySelector('[name="firstName"]'), validate: v => v.trim() ? '' : 'Le prénom est obligatoire.' },
+        lastName: { el: form.querySelector('[name="lastName"]'), validate: v => v.trim() ? '' : 'Le nom est obligatoire.' },
+        phone: { el: form.querySelector('[name="phone"]'), validate: v => v.trim() ? '' : 'Le téléphone est obligatoire.' },
+        email: { el: form.querySelector('[name="email"]'), validate: v => {
+            if (!v.trim()) return 'L\'email est obligatoire.';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'L\'email n\'est pas valide.';
+            return '';
+        }},
+        password: { el: form.querySelector('[name="password"]'), validate: v => {
+            if (!v) return 'Le mot de passe est obligatoire.';
+            if (v.length < 10) return 'Le mot de passe doit contenir au moins 10 caractères.';
+            if (!/[A-Z]/.test(v)) return 'Le mot de passe doit contenir au moins une majuscule.';
+            if (!/[a-z]/.test(v)) return 'Le mot de passe doit contenir au moins une minuscule.';
+            if (!/[0-9]/.test(v)) return 'Le mot de passe doit contenir au moins un chiffre.';
+            if (!/[^A-Za-z0-9]/.test(v)) return 'Le mot de passe doit contenir au moins un caractère spécial.';
+            return '';
+        }},
+        passwordConfirm: { el: form.querySelector('[name="passwordConfirm"]'), validate: v => {
+            if (!v) return 'La confirmation du mot de passe est obligatoire.';
+            if (v !== form.querySelector('[name="password"]').value) return 'Les mots de passe ne correspondent pas.';
+            return '';
+        }},
+    };
+
+    function showError(name, msg) {
+        const container = fields[name].el.closest('label').querySelector('.field-error');
+        if (container) container.textContent = msg;
+    }
+
+    function clearErrors() {
+        form.querySelectorAll('.field-error').forEach(s => s.textContent = '');
+    }
+
+    form.addEventListener('submit', e => {
+        clearErrors();
+        let valid = true;
+        for (const [name, cfg] of Object.entries(fields)) {
+            const msg = cfg.validate(cfg.el.value);
+            if (msg) {
+                showError(name, msg);
+                valid = false;
+            }
+        }
+        if (!valid) e.preventDefault();
+    });
+</script>
 {% endblock %}

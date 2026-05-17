@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}Connexion{% endblock %}
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('css/login.css') }}"> {% endblock %}
 {% block body %}
 <main>
     <h1>Connexion</h1>
@@ -16,5 +17,10 @@
         </label>
         <button type="submit" class="cta">Se connecter</button>
     </form>
+    <section>
+        <h3>Pas inscrit ?</h3>
+        <p>Créez un nouveau compte.</p>
+        <a href="{{ path('app_register') }}" class="cta">S'inscrire</a>
+    </section>
 </main>
 {% endblock %}

@@ -18,7 +18,7 @@ class ReviewController extends AbstractController
     #[Route('/reviews', name: 'employee_reviews')]
     public function index(ReviewRepository $reviewRepository, Request $request): Response
     {
-        $status = $request->query->get('status');
+        $status = $request->query->get('status', 'en attente');
         $qb = $reviewRepository->createQueryBuilder('r');
         if ($status) {
             $qb->andWhere('r.status = :status')->setParameter('status', $status);

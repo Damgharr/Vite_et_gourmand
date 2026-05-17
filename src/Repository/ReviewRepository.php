@@ -22,6 +22,8 @@ class ReviewRepository extends ServiceEntityRepository
     public function findLatest(int $limit = 10): array
     {
         return $this->createQueryBuilder('r')
+            ->andWhere('r.status = :status')
+            ->setParameter('status', 'acceptée')
             ->orderBy('r.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

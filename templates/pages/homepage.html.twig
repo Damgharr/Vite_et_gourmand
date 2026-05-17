@@ -4,7 +4,7 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/reviews-carousel.js') }}"></script>
+    <script src="{{ asset('js/reviews-carousel.js') }}" type="module"></script>
 {% endblock %}
 {% block title %} Vite et Gourmand {% endblock %}
 {% block body %}
@@ -25,7 +25,7 @@
             <p>Nous nous occupons de la livraison ! Ainsi que de vous amener tout le matériel nécessaire afin de profiter de vos fondus ou grillades. <br> Notre équipe vous assure la livraison en temps et en heure, vous accompagne et vous instruit sur l’utilisation des différents ustensiles prêtés !</p>
         </section>
         <section id="reviews">
-            <button class="navigate-left">
+            <button>
                 <img src="{{ asset('icon/arrowIcon.svg') }}" alt="">
             </button>
             <div>
@@ -33,18 +33,17 @@
                     {% for review in reviews %}
                         <div>
                             <h3> {{ review.user.firstName }} {{ review.user.lastName }}</h3>
+                            <p>{{ review.text }}</p>
                             <div>
                                 {% for i in 1..5 %}
                                     <span class="{% if i <= review.note %}filled{% endif %}">★</span>
                                 {% endfor %}
                             </div>
-                            <p class="review-text">"{{ review.text }}"</p>
-                            
                         </div>
                     {% endfor %}
                 </div>
             </div>
-            <button class="navigate-right">
+            <button>
                 <img src="{{ asset('icon/arrowIcon.svg') }}" alt="">
             </button>
         </section>
