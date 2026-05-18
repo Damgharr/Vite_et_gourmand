@@ -8,6 +8,8 @@
 Comme ceci est un projet Symfony, il faut installer composer à sa racine, car les dossiers var et vendor ne sont pas présent dans ce dépot.
 Voici la documentation de l'installation : [composer](https://getcomposer.org/download/)
 
+Vous pourrez ensuite lancer la commande ```composer install``` à la racine du projet.
+
 ## Mise en place des BDD relationelle et NoSQL ##
 
 Pour ce projet, j'utilise les dernières versions de PostgreSQL et MongoDB (pour l'invite de commande, j'utilise ```mongosh```).
