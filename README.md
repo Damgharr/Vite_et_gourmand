@@ -51,4 +51,10 @@ Et comme avant, vous quittez en écrivant simplement ``` exit ```, puis lancez c
 mongosh 'mongodb://vite_et_gourmand:HSnXnUFkzCxH@127.0.0.1:27017' sql/mongodb_finished_orders.js
 ```
 
+**Il sera aussi important d'installer et activer les extensions php tels que php-mongodb et php-pgsql, que vous pourrez retrouver dans votre php.ini**
+
+## Lancer l'application localement ##
+
+Maintenant que vous avez tout en place, vous pouvez lancer l'application localement avec la commande ```symfony serve``` exécuté à la racine, puis vous aller sur localhost:8000 et vous finirez sur la page d'accueil du site ! 
+
 
