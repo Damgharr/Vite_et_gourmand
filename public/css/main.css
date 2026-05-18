@@ -1,7 +1,7 @@
 :root {
     /* color */
     --primary-pink: #FF69B4;
-    --primary-black: black;
+    --primary-black: #181818;
     --secondary-pink: #FFDDE3;
 
     --box-shadow-pink: 0 4px 16px var(--primary-pink);

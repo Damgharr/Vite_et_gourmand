@@ -296,7 +296,7 @@ main {
     & > input:checked ~ label,
     & > label:hover,
     & > label:hover ~ label {
-        color: #ffb300;
+        color: var(--primary-pink);
     }
 }
 
